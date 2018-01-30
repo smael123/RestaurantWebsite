@@ -1,0 +1,67 @@
+﻿@*<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Taqueria de La Luna", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Menu", "Index", "Food")</li>
+                    <li>@Html.ActionLink("Specials", "Index", "Special")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>*@
+
+@*<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+    @Html.ActionLink("Taqueria de La Luna", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                @Html.ActionLink("Menu", "Index", "Food", null, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Specials", "Index", "Special", null, new { @class = "nav-link" })
+            </li>
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+</nav>*@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    @Html.ActionLink("Taqueria de La Luna", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    @*<a class="navbar-brand" href="#">Navbar</a>*@
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                @Html.ActionLink("Menu", "Index", "Food", null, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Specials", "Index", "Special", null, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })
+            </li>
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+</nav>

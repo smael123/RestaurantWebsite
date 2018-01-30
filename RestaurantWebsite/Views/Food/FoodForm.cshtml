@@ -1,0 +1,75 @@
+﻿@using MyToolkit.Html
+@model RestaurantWebsite.ViewModels.FoodFormViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1>Edit Food</h1>
+
+    @using (Html.BeginForm("Save", "Food"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(c => c.Name)
+            @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.Description)
+            @Html.TextBoxFor(c => c.Description, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.BasePrice)
+            @Html.TextBoxFor(c => c.BasePrice, new { @class = "form-control" })
+        </div>
+        @Html.ActionLink("New Extra", "New", "Extra", new { foodId = Model.Id }, new { @class = "btn btn-secondary new-item" })
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var extra in Model.Extras)
+                {
+                    <tr>
+                        <td>@Html.DisplayTextFor(c => extra.Name)</td>
+                        <td>@Html.DisplayTextFor(c => extra.AddedPrice)</td>
+                        <td>@Html.ActionLink("Edit", "Edit", "Extra", new { id = extra.Id }, null)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.HiddenFor(c => c.Id)
+        <button type="submit" class="btn btn-primary">Save</button>
+    }
+</div>
+
+@*<div class="form-group">
+        @Html.LabelFor(c => c.Extras)
+        <div>
+            @Html.CollectionEditorFor(c => c.Extras, "_ExtraForm", "Food/GetExtraEditor", "Add Extra", new { @class = "btn btn-default" })
+        </div>
+    </div>*@
+
+@*foreach (var extra in Model.Extras)
+    {
+        @Html.Partial("_ExtraForm", extra)
+    }*@
+
+
+@*<button id="new-extra">Add New Extra</button>*@
+
+@*@Html.Partial("_ExtraForm", new ExtraFormViewModel { Extras = Model.Extras })*@
+
+@*@section scripts {
+        <script>
+            $("document").ready(function () {
+                $("#new-extra").click(function () {
+                    @Html.Partial("_ExtraForm", new Extra)
+
+                })
+            })
+        </script>
+    }*@

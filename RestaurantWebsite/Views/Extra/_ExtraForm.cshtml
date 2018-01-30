@@ -1,0 +1,57 @@
+﻿@using MyToolkit.Html
+@model RestaurantWebsite.ViewModels.ExtraFormViewModel
+
+<h1>Edit Extra</h1>
+
+@using (Html.BeginForm("Save", "Extra"))
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(c => c.AddedPrice)
+        @Html.TextBoxFor(c => c.AddedPrice, new { @class = "form-control" })
+    </div>
+    @Html.HiddenFor(c => c.Id)
+    @Html.HiddenFor(c => c.FoodId)
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@*@foreach (var extra in Model.Extras) {
+        @Html.EditorFor(m => extra)
+    }
+
+    <input type="submit" value="Save" />*@
+
+@*@Html.HiddenFor(m => m.Id)
+
+    <div>
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+
+        @Html.LabelFor(m => m.AddedPrice)
+        @Html.EditorFor(m => m.AddedPrice)
+        @*<input type="submit" value="Save"/>
+    </div>*@
+
+
+@*<li>
+        <div class="panel panel-default panel-body">
+            @using (Html.BeginCollectionItem("Extras"))
+            {
+                @Html.HiddenFor(m => m.Id)
+                <p>
+                    @Html.LabelFor(m => m.Name)
+                    @Html.EditorFor(m => m.Name)
+                </p>
+                <p>
+                    @Html.LabelFor(m => m.AddedPrice)
+                    @Html.EditorFor(m => m.AddedPrice)
+                </p>
+                <input type="button" value="Save"/>
+            }
+        </div>
+    </li>*@
+
+

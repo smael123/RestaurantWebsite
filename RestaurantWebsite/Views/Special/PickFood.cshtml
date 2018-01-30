@@ -1,0 +1,28 @@
+﻿@model RestaurantWebsite.ViewModels.PickFoodViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Pick a Food to Add to the Special</h2>
+@*I think I need to make a repository for the SpecialFoods*@
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Base Price</th>
+            <th>Add To Special</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    @foreach (var food in Model.Foods)
+    {
+        <tr>
+            <td>@food.Name</td>
+            <td>@food.BasePrice</td>
+            <td>@Html.ActionLink("Add To Special", "AddFoodToSpecial", new { SpecialId = Model.SpecialId, FoodId = food.Id }, null)</td>
+        </tr>
+    }  
+    </tbody>
+</table>
