@@ -14,9 +14,11 @@ namespace RestaurantWebsite.ViewModels
         public decimal BasePrice { get; set; }
 
         public ICollection<Extra> Extras { get; set; }
+        public ICollection<FoodPicture> FoodPictures { get; set; }
 
         public FoodFormViewModel() {
             Extras = new List<Extra>();
+            FoodPictures = new List<FoodPicture>();
         }
 
         public FoodFormViewModel(Food food) {
@@ -26,6 +28,7 @@ namespace RestaurantWebsite.ViewModels
             BasePrice = food.BasePrice;
 
             Extras = food.Extras;
+            FoodPictures = food.FoodPictures;
         }
     }
 }

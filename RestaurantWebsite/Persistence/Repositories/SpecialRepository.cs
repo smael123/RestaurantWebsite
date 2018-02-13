@@ -46,10 +46,23 @@ namespace RestaurantWebsite.Persistence.Repositories
                 .ToList();
         }
 
+        //public Special GetWithNavigationalProperties(int id) {
+        //    return RestaurantContext.Specials
+        //        .Include(c => c.FoodsOnSpecial)
+        //        .Include(c => c.SpecialPicture)
+        //        .SingleOrDefault(c => c.Id == id);
+        //}
+
         public Special GetWithFood(int id) {
             return RestaurantContext.Specials
                 .Include(c => c.FoodsOnSpecial)
                 .SingleOrDefault(c => c.Id == id);
-        } 
+        }
+
+        //public Special GetWithPicture(int id) {
+        //    return RestaurantContext.Specials
+        //        .Include(c => c.SpecialPicture)
+        //        .SingleOrDefault(c => c.Id == id);
+        //}
     }
 }

@@ -13,5 +13,7 @@ namespace RestaurantWebsite.Core.Domain
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public virtual ICollection<Food> FoodsOnSpecial { get; set; }
+        public string PictureFilePath { get; set; }
+        //public int? SpecialPictureId { get; set; }
     }
 }

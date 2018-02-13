@@ -21,7 +21,7 @@
             @Html.LabelFor(c => c.BasePrice)
             @Html.TextBoxFor(c => c.BasePrice, new { @class = "form-control" })
         </div>
-        @Html.ActionLink("New Extra", "New", "Extra", new { foodId = Model.Id }, new { @class = "btn btn-secondary new-item" })
+
         <table class="table">
             <thead>
                 <tr>
@@ -41,6 +41,12 @@
                 }
             </tbody>
         </table>
+
+        @Html.ActionLink("New Extra", "New", "Extra", new { foodId = Model.Id }, new { @class = "btn btn-secondary new-item" })
+
+        //Why do i need to wrap it?
+        @Html.Action("GetAllOfFood", "FoodPicture", new { foodId = Model.Id })
+
         @Html.HiddenFor(c => c.Id)
         <button type="submit" class="btn btn-primary">Save</button>
     }

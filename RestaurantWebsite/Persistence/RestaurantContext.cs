@@ -19,6 +19,7 @@ namespace RestaurantWebsite.Persistence
         public virtual DbSet<Food> Foods { get; set; }
         public virtual DbSet<Extra> Extras { get; set; }
         public virtual DbSet<Special> Specials { get; set; }
+        public virtual DbSet<FoodPicture> FoodPictures { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -27,6 +28,7 @@ namespace RestaurantWebsite.Persistence
             modelBuilder.Configurations.Add(new FoodConfiguration());
             modelBuilder.Configurations.Add(new ExtraConfiguration());
             modelBuilder.Configurations.Add(new SpecialConfiguration());
+            modelBuilder.Configurations.Add(new FoodPictureConfiguration());
         }
 
         public static RestaurantContext Create()

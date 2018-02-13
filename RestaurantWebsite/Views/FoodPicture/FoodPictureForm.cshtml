@@ -1,0 +1,21 @@
+﻿@model RestaurantWebsite.ViewModels.FoodPictureFormViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Edit Food Picture for @Model.FoodName</h1>
+@using (Html.BeginForm("Save", "FoodPicture", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <img src="@Model.FilePath" />
+    <div class="form-group">
+        @Html.LabelFor(c => c.File)
+        <input type="file" name="file" id="File" class="form-control" />
+    </div>
+
+    @Html.HiddenFor(c => c.Id)
+    @Html.HiddenFor(c => c.FoodId)
+    @Html.HiddenFor(c => c.FoodName)
+
+    <button type="submit" value="Upload" class="submit btn btn-primary">Save</button>
+}

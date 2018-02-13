@@ -9,6 +9,5 @@ namespace RestaurantWebsite.ViewModels
     public class FoodListViewModel
     {
         public IEnumerable<Food> Foods { get; set; }
-
     }
 }
