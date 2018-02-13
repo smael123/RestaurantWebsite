@@ -14,5 +14,7 @@ namespace RestaurantWebsite.Core.Repositories
         IEnumerable<Special> GetOldSpecials();
         IEnumerable<Special> GetAllWithFoods();
         Special GetWithFood(int id);
+        //Special GetWithPicture(int id);
+        //Special GetWithNavigationalProperties(int id);
     }
 }

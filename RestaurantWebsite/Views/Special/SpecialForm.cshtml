@@ -13,7 +13,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(c => c.Description)
-        @Html.TextBoxFor(c => c.Description, new { @class = "form-control" })
+        @Html.TextAreaFor(c => c.Description, new { @class = "form-control" })
     </div>
     <div class="form-group">
         @Html.LabelFor(c => c.StartDate)
@@ -23,8 +23,17 @@
         @Html.LabelFor(c => c.EndDate)
         @Html.TextBoxFor(c => c.EndDate, new { @class = "form-control" })
     </div>
+
+    if (Model.SpecialPictureFilePath == null) {
+        Model.SpecialPictureFilePath = "/Images/SpecialImages/no-picture.png";
+    }
+
+    <img src="@Model.SpecialPictureFilePath" width="400" style="display: block;" />
+    @Html.ActionLink("Edit Picture", "EditPicture", new { @id = Model.Id }, new { @class = "btn btn-secondary new-item" })
+
+
     @Html.HiddenFor(c => c.Id)
-    @Html.ActionLink("Add Food", "PickFood", "Special", new { SpecialId = Model.Id }, new { @class="btn btn-secondary new-item" })
+
     <table class="table">
         <thead>
             <tr>
@@ -39,9 +48,9 @@
                     <td>@food.Name</td>
                     <td>@food.BasePrice</td>
                 </tr>
-            }      
+            }
         </tbody>
     </table>
-
+    @Html.ActionLink("Add Food", "PickFood", "Special", new { SpecialId = Model.Id }, new { @class = "btn btn-secondary new-item" })
     <button type="submit" class="btn btn-primary">Save</button>
 }

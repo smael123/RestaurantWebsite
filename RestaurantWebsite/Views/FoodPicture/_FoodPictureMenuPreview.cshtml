@@ -1,0 +1,15 @@
+﻿@{Layout = null;}
+@model RestaurantWebsite.Core.Domain.FoodPicture
+
+@{
+    string filePath;
+
+    if (Model == null)
+    {
+        filePath = "/Images/Food/no-picture.png";
+    }
+    else {
+        filePath = Model.FilePath;
+    }
+}
+<img class="card-img-top" src="@filePath" />

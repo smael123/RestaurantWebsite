@@ -6,6 +6,7 @@ using RestaurantWebsite.Persistence.Repositories;
 using RestaurantWebsite.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,8 +18,11 @@ namespace RestaurantWebsite.Controllers
         private IUnitOfWork _unitOfWork;
         private ISpecialRepository specialRepository;
         private IFoodRepository foodRepository;
+        private FoodPictureRepository restaurantPictureRepository;
 
         private RestaurantContext restaurantContext;
+
+        private static readonly string relativeFolderPath = "/Images/SpecialImages/";
 
         public SpecialController()
         {
@@ -26,6 +30,7 @@ namespace RestaurantWebsite.Controllers
 
             specialRepository = new SpecialRepository(restaurantContext);
             foodRepository = new FoodRepository(restaurantContext);
+            restaurantPictureRepository = new FoodPictureRepository(restaurantContext);
             _unitOfWork = new UnitOfWork(restaurantContext);
         }
 
@@ -50,7 +55,7 @@ namespace RestaurantWebsite.Controllers
         }
 
 
-        //use an optionnal parameter
+        //use an optional parameter
         public ActionResult Save(SpecialFormViewModel specialVM) {
             Special specialInDb = specialRepository.GetWithFood(specialVM.Id);
 
@@ -106,6 +111,35 @@ namespace RestaurantWebsite.Controllers
             };
 
             return special;
+        }
+
+        //Perhaps picture related controllers should be moved to a separate class
+        public ActionResult EditPicture(int id) {
+            var specialInDb = specialRepository.SingleOrDefault(c=> c.Id == id);
+
+            if (specialInDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("SpecialPictureForm", new SpecialImageFormViewModel(specialInDb));
+        }
+
+        public ActionResult SavePicture(SpecialImageFormViewModel viewModel) {
+            string relativeFilePath = relativeFolderPath + viewModel.SpecialName + Path.GetExtension(viewModel.File.FileName);
+            string absoluteFilePath = HttpContext.Server.MapPath("~" + relativeFolderPath) + viewModel.SpecialName + Path.GetExtension(viewModel.File.FileName);
+
+            //RestaurantPicture restaurantPictureInDb = restaurantPictureRepository.SingleOrDefault(c => c.Id == viewModel.PictureId);
+            Special specialInDb = specialRepository.Get(viewModel.SpecialId);
+
+            specialInDb.PictureFilePath = relativeFilePath;
+
+            //save the picture as a file
+            viewModel.File.SaveAs(absoluteFilePath);
+
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index");
         }
     }
 }

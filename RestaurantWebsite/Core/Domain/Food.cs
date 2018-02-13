@@ -14,6 +14,6 @@ namespace RestaurantWebsite.Core.Domain
         public virtual ICollection<Extra> Extras { get; set; }
 
         public virtual ICollection<Special> SpecialsItBelongsTo { get; set; }
-
+        public virtual ICollection<FoodPicture> FoodPictures { get; set; }
     }
 }

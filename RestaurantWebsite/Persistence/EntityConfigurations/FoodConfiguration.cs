@@ -27,7 +27,10 @@ namespace RestaurantWebsite.Persistence.EntityConfigurations
                 .IsRequired();
 
             HasMany(c => c.Extras);
-            
+
+
+            //Pictures
+            HasMany(c => c.FoodPictures);
         }
     }
 }

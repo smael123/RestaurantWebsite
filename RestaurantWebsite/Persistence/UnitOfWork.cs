@@ -15,12 +15,14 @@ namespace RestaurantWebsite.Persistence
         public IFoodRepository Foods { get; private set; }
         public IExtraRepository Extras { get; private set; }
         public ISpecialRepository Specials { get; private set; }
+        public IFoodPictureRepository FoodPictures { get; private set; }
 
         public UnitOfWork(RestaurantContext context) {
             _context = context;
             Foods = new FoodRepository(_context);
             Extras = new ExtraRepository(_context);
             Specials = new SpecialRepository(_context);
+            FoodPictures = new FoodPictureRepository(_context);
         }
 
         public int Complete()

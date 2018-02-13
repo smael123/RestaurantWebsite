@@ -47,29 +47,10 @@ namespace RestaurantWebsite.Controllers
                 return HttpNotFound();
             }
 
-            //IEnumerable<Extra> extras = extraRepository.GetExtrasOfFood(foodInDb.Id);
-
-            //foodInDb.Extras = new Collection<Extra>(extras);
-
-            //foodInDb.Extras = extras.Select(e => new Extra
-            //{
-            //    Id = e.Id,
-            //    Name = e.Name,
-            //    AddedPrice = e.AddedPrice
-            //});
-
-            //return View("FoodForm", new Food
-            //{
-            //    Id = foodInDb.Id,
-            //    Name = foodInDb.Name,
-            //    Description = foodInDb.Description,
-            //    BasePrice = foodInDb.BasePrice,
-            //    Extras = foodInDb.Extras
-            //});
-
             return View("FoodForm", new FoodFormViewModel(foodInDb));
         }
 
+        //can only save the Food not extras!
         public ActionResult Save(FoodFormViewModel foodVM) {
             Food foodInDb = foodRepository.GetWithExtra(foodVM.Id);
 
@@ -81,33 +62,7 @@ namespace RestaurantWebsite.Controllers
                 foodInDb.Name = foodVM.Name;
                 foodInDb.Description = foodVM.Description;
                 foodInDb.BasePrice = foodVM.BasePrice;
-                //foodInDb.Extras = food.Extras;
             }
-
-
-            //if (food == null)
-            //{
-            //    food = new Food
-            //    {
-            //        Name = foodVM.Name,
-            //        Description = foodVM.Description,
-            //        BasePrice = foodVM.BasePrice,
-            //        Extras = foodVM.Extras
-            //    };
-
-            //    //extras = new Enumerable<Extra>(foodVM.Extras);
-
-            //    foodRepository.Add(food);
-            //    //extraRepository.AddRange(foodVM.Extras);
-            //}
-            //else {
-            //    food.Name = foodVM.Name;
-            //    food.Description = foodVM.Description;
-            //    food.BasePrice = foodVM.BasePrice;
-            //    food.Extras = foodVM.Extras;
-
-            //    //IEnumerable<Extra> extras = extraRepository.GetExtrasOfFood(food.Id);
-            //}
             
             _unitOfWork.Complete();
 

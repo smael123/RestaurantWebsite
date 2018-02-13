@@ -221,15 +221,18 @@
     <Compile Include="Controllers\Api\SpecialController.cs" />
     <Compile Include="Controllers\ExtraController.cs" />
     <Compile Include="Controllers\FoodController.cs" />
+    <Compile Include="Controllers\FoodPictureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SpecialController.cs" />
     <Compile Include="Core\Domain\ApplicationUser.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
     <Compile Include="Core\Repositories\IExtraRepository.cs" />
+    <Compile Include="Core\Repositories\IFoodPictureRepository.cs" />
     <Compile Include="Core\Repositories\IFoodRepository.cs" />
     <Compile Include="Core\Repositories\IRepository.cs" />
     <Compile Include="Core\Repositories\ISpecialRepository.cs" />
+    <Compile Include="Core\Domain\FoodPicture.cs" />
     <Compile Include="Dtos\ExtraDto.cs" />
     <Compile Include="Dtos\FoodDto.cs" />
     <Compile Include="Dtos\SpecialDto.cs" />
@@ -258,8 +261,37 @@
     <Compile Include="Migrations\RestaurantMigrations\201801300117134_AddLoginToApplication.Designer.cs">
       <DependentUpon>201801300117134_AddLoginToApplication.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802032129584_AddPicturesToFoodAndSpecial.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802032129584_AddPicturesToFoodAndSpecial.Designer.cs">
+      <DependentUpon>201802032129584_AddPicturesToFoodAndSpecial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802050620133_ChangeReferenceToRestPictureToFilePath.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802050620133_ChangeReferenceToRestPictureToFilePath.Designer.cs">
+      <DependentUpon>201802050620133_ChangeReferenceToRestPictureToFilePath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802060231085_RenameRestaurantPictureToFoodPicture.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802060231085_RenameRestaurantPictureToFoodPicture.Designer.cs">
+      <DependentUpon>201802060231085_RenameRestaurantPictureToFoodPicture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802060321469_AddFoodIdNavToFoodPicture.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802060321469_AddFoodIdNavToFoodPicture.Designer.cs">
+      <DependentUpon>201802060321469_AddFoodIdNavToFoodPicture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802080522300_MakeFoodIdRequired.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802080522300_MakeFoodIdRequired.Designer.cs">
+      <DependentUpon>201802080522300_MakeFoodIdRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802090315143_RemoveOldTableNameConstraintRestaurantPictures.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802090315143_RemoveOldTableNameConstraintRestaurantPictures.Designer.cs">
+      <DependentUpon>201802090315143_RemoveOldTableNameConstraintRestaurantPictures.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\RestaurantMigrations\Configuration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\FoodPictureConfiguration.cs" />
+    <Compile Include="Persistence\Repositories\FoodPictureRepository.cs" />
+    <Compile Include="ServerManager\ImageManager.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\FoodPictureFormViewModel.cs" />
+    <Compile Include="ViewModels\FoodPicturePreviewListViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Core\Domain\Special.cs" />
     <Compile Include="Persistence\EntityConfigurations\ExtraConfiguration.cs" />
@@ -278,6 +310,7 @@
     <Compile Include="ViewModels\FoodListViewModel.cs" />
     <Compile Include="ViewModels\PickFoodViewModel.cs" />
     <Compile Include="ViewModels\SpecialFormViewModel.cs" />
+    <Compile Include="ViewModels\SpecialImageFormViewModel.cs" />
     <Compile Include="ViewModels\SpecialListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -389,9 +422,15 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_NavBar.cshtml" />
+    <Content Include="Views\Special\SpecialPictureForm.cshtml" />
+    <Content Include="Views\FoodPicture\FoodPictureForm.cshtml" />
+    <Content Include="Views\FoodPicture\_FoodPicturePreview.cshtml" />
+    <Content Include="Views\FoodPicture\_FoodPictureMenuPreview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\Food\" />
+    <Folder Include="Images\SpecialImages\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -413,6 +452,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\RestaurantMigrations\201801300117134_AddLoginToApplication.resx">
       <DependentUpon>201801300117134_AddLoginToApplication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802032129584_AddPicturesToFoodAndSpecial.resx">
+      <DependentUpon>201802032129584_AddPicturesToFoodAndSpecial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802050620133_ChangeReferenceToRestPictureToFilePath.resx">
+      <DependentUpon>201802050620133_ChangeReferenceToRestPictureToFilePath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802060231085_RenameRestaurantPictureToFoodPicture.resx">
+      <DependentUpon>201802060231085_RenameRestaurantPictureToFoodPicture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802060321469_AddFoodIdNavToFoodPicture.resx">
+      <DependentUpon>201802060321469_AddFoodIdNavToFoodPicture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802080522300_MakeFoodIdRequired.resx">
+      <DependentUpon>201802080522300_MakeFoodIdRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802090315143_RemoveOldTableNameConstraintRestaurantPictures.resx">
+      <DependentUpon>201802090315143_RemoveOldTableNameConstraintRestaurantPictures.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

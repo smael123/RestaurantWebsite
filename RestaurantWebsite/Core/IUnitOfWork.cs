@@ -12,6 +12,7 @@ namespace RestaurantWebsite.Core
         IFoodRepository Foods { get; }
         IExtraRepository Extras { get; }
         ISpecialRepository Specials { get; }
+        IFoodPictureRepository FoodPictures { get; }
 
         int Complete();
     }

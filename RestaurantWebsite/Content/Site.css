@@ -34,3 +34,7 @@ textarea {
 .contact-item {
     display: block;
 }
+
+.new-food-picture-button {
+    margin: 10px auto;
+}
