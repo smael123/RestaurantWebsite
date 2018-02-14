@@ -1,6 +1,7 @@
 ﻿using RestaurantWebsite.Core.Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -9,9 +10,15 @@ namespace RestaurantWebsite.ViewModels
     public class SpecialFormViewModel
     {
         public int Id { get; set; }
+
+        [MaxLength(256)]
         public string Name { get; set; }
+
+        [MaxLength(500)]
         public string Description { get; set; }
+
         public DateTime StartDate { get; set; }
+
         public DateTime EndDate { get; set; }
         public ICollection<Food> FoodsOnSpecial { get; set; }
         public string SpecialPictureFilePath { get; set; }
