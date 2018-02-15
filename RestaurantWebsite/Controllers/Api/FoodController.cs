@@ -18,7 +18,6 @@ namespace RestaurantWebsite.Controllers.Api
     {
         private IUnitOfWork _unitOfWork;
         private IMapper _mapper;
-        private IFoodRepository foodRepository;
 
         //public FoodController(IUnitOfWork unitOfWork) {
         //    _unitOfWork = unitOfWork;
@@ -38,15 +37,8 @@ namespace RestaurantWebsite.Controllers.Api
         //    _mapper = config.CreateMapper();
         //}
 
-        public FoodController(IFoodRepository foodRepository) {
-            this.foodRepository = foodRepository;
-
-            InitializeMapper();
-        }
-
         public FoodController() {
-            this.foodRepository = new FoodRepository(new RestaurantContext());
-            this._unitOfWork = new UnitOfWork(new RestaurantContext());
+            _unitOfWork = new UnitOfWork();
 
             InitializeMapper();
         }
@@ -72,7 +64,7 @@ namespace RestaurantWebsite.Controllers.Api
         public IHttpActionResult Get()
         {
             //return new string[] { "value1", "value2" };
-            var foods = foodRepository.GetAllWithExtras();
+            var foods = _unitOfWork.Foods.GetAllWithExtras();
 
             //var foodDtos = foods.Select(Mapper.Map<Food, FoodDto>);
             //var foodDtos = _mapper.Map<FoodDto>(foods);
@@ -87,7 +79,7 @@ namespace RestaurantWebsite.Controllers.Api
         // GET api/<controller>/5
         public IHttpActionResult Get(int id)
         {
-            var food = foodRepository.GetWithExtra(id);
+            var food = _unitOfWork.Foods.GetWithExtra(id);
 
             if (food == null) {
                 return NotFound();
@@ -100,7 +92,7 @@ namespace RestaurantWebsite.Controllers.Api
 
         //public IHttpActionResult Create(FoodDto foodDto)
         //{
-        //    foodRepository.Add(_mapper.Map<Food>(foodDto));
+        //    _unitOfWork.Foods.Add(_mapper.Map<Food>(foodDto));
 
         //    return Ok();
         //}
@@ -110,7 +102,7 @@ namespace RestaurantWebsite.Controllers.Api
         {
             var food = _mapper.Map<Food>(foodDto);
 
-            foodRepository.Add(food);
+            _unitOfWork.Foods.Add(food);
             _unitOfWork.Complete();
 
             return Created(new Uri(Request.RequestUri + "/" + food.Id), foodDto);
@@ -119,7 +111,7 @@ namespace RestaurantWebsite.Controllers.Api
         // PUT api/<controller>/5
         public void Put(int id, FoodDto foodDto)
         {
-            var foodInDb = foodRepository.SingleOrDefault(c => c.Id == id);
+            var foodInDb = _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
 
             _mapper.Map<Food>(foodDto);
 

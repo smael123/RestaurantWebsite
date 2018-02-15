@@ -16,33 +16,23 @@ namespace RestaurantWebsite.Controllers
     public class SpecialController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        private ISpecialRepository specialRepository;
-        private IFoodRepository foodRepository;
-        private FoodPictureRepository restaurantPictureRepository;
-
-        private RestaurantContext restaurantContext;
 
         private static readonly string relativeFolderPath = "/Images/SpecialImages/";
 
         public SpecialController()
         {
-            restaurantContext = new RestaurantContext();
-
-            specialRepository = new SpecialRepository(restaurantContext);
-            foodRepository = new FoodRepository(restaurantContext);
-            restaurantPictureRepository = new FoodPictureRepository(restaurantContext);
-            _unitOfWork = new UnitOfWork(restaurantContext);
+            _unitOfWork = new UnitOfWork();
         }
 
         [AllowAnonymous]
         public ActionResult Index() {
-            var specials = specialRepository.GetAll();
+            var specials = _unitOfWork.Specials.GetAll();
 
             return View(new SpecialListViewModel { Specials = specials });
         }
 
         public ActionResult Edit(int id) {
-            var specialInDb = specialRepository.GetWithFood(id);
+            var specialInDb = _unitOfWork.Specials.GetWithFood(id);
 
             if (specialInDb == null) {
                 return HttpNotFound();
@@ -58,11 +48,11 @@ namespace RestaurantWebsite.Controllers
 
         //use an optional parameter
         public ActionResult Save(SpecialFormViewModel specialVM) {
-            Special specialInDb = specialRepository.GetWithFood(specialVM.Id);
+            Special specialInDb = _unitOfWork.Specials.GetWithFood(specialVM.Id);
 
             if (specialInDb == null)
             {
-                specialRepository.Add(ConvertSpecialFormViewModelToSpecial(specialVM));
+                _unitOfWork.Specials.Add(ConvertSpecialFormViewModelToSpecial(specialVM));
 
             }
             else {
@@ -79,19 +69,19 @@ namespace RestaurantWebsite.Controllers
         }
 
         public ActionResult PickFood(int specialId) {
-            var specialInDb = specialRepository.Get(specialId);
+            var specialInDb = _unitOfWork.Specials.Get(specialId);
             
             //what if we add the same food?
-            var foods = foodRepository.GetAll();
+            var foods = _unitOfWork.Foods.GetAll();
 
             return View("PickFood", new PickFoodViewModel(specialInDb.Id, foods));
 
         }
 
         public ActionResult AddFoodToSpecial(int specialId, int foodId) {
-            var specialInDb = specialRepository.GetWithFood(specialId);
+            var specialInDb = _unitOfWork.Specials.GetWithFood(specialId);
 
-            var foodInDb = foodRepository.Get(foodId);
+            var foodInDb = _unitOfWork.Foods.Get(foodId);
 
             specialInDb.FoodsOnSpecial.Add(foodInDb);
 
@@ -116,7 +106,7 @@ namespace RestaurantWebsite.Controllers
 
         //Perhaps picture related controllers should be moved to a separate class
         public ActionResult EditPicture(int id) {
-            var specialInDb = specialRepository.SingleOrDefault(c=> c.Id == id);
+            var specialInDb = _unitOfWork.Specials.SingleOrDefault(c=> c.Id == id);
 
             if (specialInDb == null)
             {
@@ -131,7 +121,7 @@ namespace RestaurantWebsite.Controllers
             string absoluteFilePath = HttpContext.Server.MapPath("~" + relativeFolderPath) + viewModel.SpecialName + Path.GetExtension(viewModel.File.FileName);
 
             //RestaurantPicture restaurantPictureInDb = restaurantPictureRepository.SingleOrDefault(c => c.Id == viewModel.PictureId);
-            Special specialInDb = specialRepository.Get(viewModel.SpecialId);
+            Special specialInDb = _unitOfWork.Specials.Get(viewModel.SpecialId);
 
             specialInDb.PictureFilePath = relativeFilePath;
 

@@ -15,24 +15,16 @@ namespace RestaurantWebsite.Controllers
     public class FoodController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        private IFoodRepository foodRepository;
-        private IExtraRepository extraRepository;
-
-        private RestaurantContext restaurantContext;
 
         public FoodController() {
-            restaurantContext = new RestaurantContext();
-
-            foodRepository = new FoodRepository(restaurantContext);
-            extraRepository = new ExtraRepository(restaurantContext);
-            _unitOfWork = new UnitOfWork(restaurantContext);
+            _unitOfWork = new UnitOfWork();
         }
 
         // GET: Food
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var foods = foodRepository.GetAll();
+            var foods = _unitOfWork.Foods.GetAll();
 
             return View("Menu", new FoodListViewModel { Foods = foods });
         }
@@ -42,7 +34,7 @@ namespace RestaurantWebsite.Controllers
         }
 
         public ActionResult Edit(int id) {
-            var foodInDb = foodRepository.GetWithExtra(id);
+            var foodInDb = _unitOfWork.Foods.GetWithExtra(id);
 
             if (foodInDb == null) {
                 return HttpNotFound();
@@ -53,11 +45,11 @@ namespace RestaurantWebsite.Controllers
 
         //can only save the Food not extras!
         public ActionResult Save(FoodFormViewModel foodVM) {
-            Food foodInDb = foodRepository.GetWithExtra(foodVM.Id);
+            Food foodInDb = _unitOfWork.Foods.GetWithExtra(foodVM.Id);
 
             if (foodInDb == null)
             {
-                foodRepository.Add(ConvertFoodFormViewModelToFood(foodVM));
+                _unitOfWork.Foods.Add(ConvertFoodFormViewModelToFood(foodVM));
             }
             else {
                 foodInDb.Name = foodVM.Name;
