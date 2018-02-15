@@ -29,6 +29,7 @@ namespace RestaurantWebsite.Controllers
         }
 
         // GET: Food
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var foods = foodRepository.GetAll();
