@@ -34,6 +34,7 @@ namespace RestaurantWebsite.Controllers
             _unitOfWork = new UnitOfWork(restaurantContext);
         }
 
+        [AllowAnonymous]
         public ActionResult Index() {
             var specials = specialRepository.GetAll();
 

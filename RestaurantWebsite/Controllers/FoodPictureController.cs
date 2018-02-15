@@ -76,6 +76,7 @@ namespace RestaurantWebsite.Controllers
             return RedirectToAction("Edit", "Food", new { Id = viewModel.FoodId });
         }
 
+        [AllowAnonymous]
         public ActionResult GetAllOfFood(int foodId) {
             List<FoodPicture> foodPictures = (List<FoodPicture>)foodPictureRepository.GetFoodPicturesOfFood(foodId);
 
@@ -84,6 +85,7 @@ namespace RestaurantWebsite.Controllers
             return View("_FoodPicturePreview", foodPicturePreviewListViewModel);
         }
 
+        [AllowAnonymous]
         public ActionResult MenuPreview(int foodId) {
             FoodPicture foodPicture = foodPictureRepository.GetFirstPictureOfFood(foodId); 
 
