@@ -15,16 +15,10 @@ namespace RestaurantWebsite.Controllers
     public class ExtraController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        private IExtraRepository extraRepository;
-
-        private RestaurantContext restaurantContext;
 
         public ExtraController()
         {
-            restaurantContext = new RestaurantContext();
-
-            extraRepository = new ExtraRepository(restaurantContext);
-            _unitOfWork = new UnitOfWork(restaurantContext);
+            _unitOfWork = new UnitOfWork();
         }
 
         public ActionResult New(int foodId) {
@@ -32,7 +26,7 @@ namespace RestaurantWebsite.Controllers
         }
 
         public ActionResult Edit(int id) {
-            var extraInDb = extraRepository.SingleOrDefault(c => c.Id == id);
+            var extraInDb = _unitOfWork.Extras.SingleOrDefault(c => c.Id == id);
 
             if (extraInDb == null) {
                 return HttpNotFound();
@@ -42,11 +36,11 @@ namespace RestaurantWebsite.Controllers
         }
 
         public ActionResult Save(ExtraFormViewModel extraVM) {
-            Extra extraInDb = extraRepository.SingleOrDefault(c => c.Id == extraVM.Id);
+            Extra extraInDb = _unitOfWork.Extras.SingleOrDefault(c => c.Id == extraVM.Id);
 
             if (extraInDb == null)
             {
-                extraRepository.Add(ConvertExtraFormViewModelToExtra(extraVM));
+                _unitOfWork.Extras.Add(ConvertExtraFormViewModelToExtra(extraVM));
             }
             else
             {

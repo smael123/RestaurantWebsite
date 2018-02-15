@@ -17,8 +17,9 @@ namespace RestaurantWebsite.Persistence
         public ISpecialRepository Specials { get; private set; }
         public IFoodPictureRepository FoodPictures { get; private set; }
 
-        public UnitOfWork(RestaurantContext context) {
-            _context = context;
+        public UnitOfWork() {
+            _context = new RestaurantContext();
+
             Foods = new FoodRepository(_context);
             Extras = new ExtraRepository(_context);
             Specials = new SpecialRepository(_context);

@@ -15,22 +15,14 @@ namespace RestaurantWebsite.Controllers
     public class FoodPictureController : Controller
     {
         private IUnitOfWork _unitOfWork;
-        private FoodPictureRepository foodPictureRepository;
-        private FoodRepository foodRepository;
-
-        private RestaurantContext restaurantContext;
 
         public FoodPictureController()
         {
-            restaurantContext = new RestaurantContext();
-
-            foodRepository = new FoodRepository(restaurantContext);
-            foodPictureRepository = new FoodPictureRepository(restaurantContext);
-            _unitOfWork = new UnitOfWork(restaurantContext);
+            _unitOfWork = new UnitOfWork();
         }
 
         public ActionResult New(int foodId) {
-            Food food = foodRepository.SingleOrDefault(c => c.Id == foodId);
+            Food food = _unitOfWork.Foods.SingleOrDefault(c => c.Id == foodId);
             //you only need two things, make a repository method that only gets those things
 
             FoodPictureFormViewModel viewModel = new FoodPictureFormViewModel(food);
@@ -40,8 +32,8 @@ namespace RestaurantWebsite.Controllers
         }
 
         public ActionResult Edit(int id) {
-            FoodPicture foodPicture = foodPictureRepository.SingleOrDefault(c => c.Id == id);
-            Food food = foodRepository.SingleOrDefault(c => c.Id == foodPicture.FoodId);
+            FoodPicture foodPicture = _unitOfWork.FoodPictures.SingleOrDefault(c => c.Id == id);
+            Food food = _unitOfWork.Foods.SingleOrDefault(c => c.Id == foodPicture.FoodId);
 
             FoodPictureFormViewModel viewModel = new FoodPictureFormViewModel(foodPicture, food);
 
@@ -55,11 +47,11 @@ namespace RestaurantWebsite.Controllers
             string relativeFilePath = relativeFolderPath + newFileName;
             string absoluteFilePath = HttpContext.Server.MapPath("~" + relativeFolderPath) + newFileName;
 
-            FoodPicture foodPictureInDb = foodPictureRepository.SingleOrDefault(c => c.Id == viewModel.Id);
+            FoodPicture foodPictureInDb = _unitOfWork.FoodPictures.SingleOrDefault(c => c.Id == viewModel.Id);
 
             if (foodPictureInDb == null)
             {
-                foodPictureRepository.Add(new FoodPicture
+                _unitOfWork.FoodPictures.Add(new FoodPicture
                 {
                     FilePath = relativeFilePath,
                     FoodId = viewModel.FoodId
@@ -78,7 +70,7 @@ namespace RestaurantWebsite.Controllers
 
         [AllowAnonymous]
         public ActionResult GetAllOfFood(int foodId) {
-            List<FoodPicture> foodPictures = (List<FoodPicture>)foodPictureRepository.GetFoodPicturesOfFood(foodId);
+            List<FoodPicture> foodPictures = (List<FoodPicture>)_unitOfWork.FoodPictures.GetFoodPicturesOfFood(foodId);
 
             FoodPicturePreviewListViewModel foodPicturePreviewListViewModel = new FoodPicturePreviewListViewModel(foodPictures, foodId);
 
@@ -87,7 +79,7 @@ namespace RestaurantWebsite.Controllers
 
         [AllowAnonymous]
         public ActionResult MenuPreview(int foodId) {
-            FoodPicture foodPicture = foodPictureRepository.GetFirstPictureOfFood(foodId); 
+            FoodPicture foodPicture = _unitOfWork.FoodPictures.GetFirstPictureOfFood(foodId); 
 
             return View("_FoodPictureMenuPreview", foodPicture);
         }
