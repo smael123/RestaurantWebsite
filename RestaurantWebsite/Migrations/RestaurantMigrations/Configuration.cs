@@ -32,22 +32,33 @@ namespace RestaurantWebsite.Migrations.RestaurantMigrations
                             Name = "Chopped Tampiquena",
                             AddedPrice = 0.96m
                         }
+                    },
+                    FoodPictures = new FoodPicture[] {
+                        new FoodPicture {
+                            FilePath = "/Images/Food/Taco.jpg"
+                        }
                     }
+                    
                 },
                 new Food {
                     Name = "Tampiquena Plate",
-                    Description = "A delicious peice of tampiquena steak served with beans, tortillas, and onions.",
+                    Description = "A delicious peice of tampiquena steak served with beans, tortillas, and onions.\nImage By Joseph A. Tyson - los cabos magazine, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=5252169",
                     BasePrice = 14.99m,
                     Extras = new Extra[] {
                         new Extra {
                             Name = "Extra Steak",
                             AddedPrice = 6.99m
                         }
+                    },
+                    FoodPictures = new FoodPicture [] {
+                        new FoodPicture {
+                            FilePath = "/Images/Food/Tampiquena Plate.jpg"
+                        }
                     }
                 },
                 new Food {
                     Name = "Menudo Bowl",
-                    Description = "A mexican delicacy, menudo is a soup with tripe, hominy, and an unforgettable taste. Comes with cliantro and onion.",
+                    Description = "A mexican delicacy, menudo is a soup with tripe, hominy, and an unforgettable taste. Comes with cliantro and onion.\n Photo By David Martin Davies [CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0)], via Wikimedia Commons",
                     BasePrice = 5.79m,
                     Extras = new Extra[] {
                         new Extra {
@@ -58,21 +69,27 @@ namespace RestaurantWebsite.Migrations.RestaurantMigrations
                             Name = "Extra Hominy",
                             AddedPrice = 0.99m
                         }
+                    },
+                    FoodPictures = new FoodPicture [] {
+                        new FoodPicture {
+                            FilePath = "/Images/Food/Menudo Bowl.jpg"
+                        }
                     }
                 },
                 new Food {
                     Name = "Flauta Plate",
                     Description = "Fried tortillas with your choice of chicken or beef filling. Served with guacamole and sour cream.",
-                    BasePrice = 8.99m
+                    BasePrice = 8.99m,
+                    FoodPictures = new FoodPicture [] {
+                        new FoodPicture {
+                            FilePath = "/Images/Food/Flauta Plate.jpg"
+                        }
+                    }
                 }
             };
 
             context.Foods.AddOrUpdate(c => c.Name, foods);
             context.SaveChanges();
-
-            //var x = context.Foods.Single(c => c.Name == "Taco");
-
-
 
             Special [] specials = new Special[] {
                 new Special {

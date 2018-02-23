@@ -31,6 +31,12 @@ namespace RestaurantWebsite.Controllers
             return View(new SpecialListViewModel { Specials = specials });
         }
 
+        public ActionResult AdminIndex() {
+            var specials = _unitOfWork.Specials.GetAll();
+
+            return View(new SpecialListViewModel { Specials = specials });
+        }
+
         public ActionResult Edit(int id) {
             var specialInDb = _unitOfWork.Specials.GetWithFood(id);
 
@@ -39,6 +45,18 @@ namespace RestaurantWebsite.Controllers
             } 
 
             return View("SpecialForm", new SpecialFormViewModel(specialInDb));
+        }
+
+        [AllowAnonymous]
+        public ActionResult Details(int id) {
+            var specialInDb = _unitOfWork.Specials.GetWithFood(id);
+
+            if (specialInDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(new SpecialFormViewModel(specialInDb));
         }
 
         public ActionResult New() {
@@ -65,7 +83,7 @@ namespace RestaurantWebsite.Controllers
 
             _unitOfWork.Complete();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("AdminIndex");
         }
 
         public ActionResult PickFood(int specialId) {

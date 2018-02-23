@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Our Delicious Menu</h1>
+    
+<div class="row">
+    @foreach (var food in Model.Foods)
+    {
+        <div class="food-item col-sm-6 col-md-4 col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    @Html.Action("MenuPreview", "FoodPicture", new { @foodId = food.Id })
+                    <h3 class="card-title">@food.Name</h3>
+                    <p class="card-text">@food.Description</p>
+                    <p class="food-item-price">@food.BasePrice</p>
+                    @Html.ActionLink("View Details", "Details", "Food", new { id = food.Id }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

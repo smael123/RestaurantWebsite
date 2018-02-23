@@ -285,6 +285,14 @@
     <Compile Include="Migrations\RestaurantMigrations\201802090315143_RemoveOldTableNameConstraintRestaurantPictures.Designer.cs">
       <DependentUpon>201802090315143_RemoveOldTableNameConstraintRestaurantPictures.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802200336147_MakeFilePathASCIIAndIndexIt.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802200336147_MakeFilePathASCIIAndIndexIt.Designer.cs">
+      <DependentUpon>201802200336147_MakeFilePathASCIIAndIndexIt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201802210411014_MakeFoodPictureFilePathRequired.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201802210411014_MakeFoodPictureFilePathRequired.Designer.cs">
+      <DependentUpon>201802210411014_MakeFoodPictureFilePathRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\RestaurantMigrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\FoodPictureConfiguration.cs" />
     <Compile Include="Persistence\Repositories\FoodPictureRepository.cs" />
@@ -406,10 +414,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Food\Menu.cshtml" />
-    <Content Include="Views\Food\FoodForm.cshtml" />
+    <Content Include="Views\Food\AdminIndex.cshtml" />
+    <Content Include="Views\Food\Edit.cshtml" />
     <Content Include="Views\Extra\_ExtraForm.cshtml" />
-    <Content Include="Views\Special\Index.cshtml" />
+    <Content Include="Views\Special\AdminIndex.cshtml" />
     <Content Include="Views\Special\SpecialForm.cshtml" />
     <Content Include="Views\Special\PickFood.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
@@ -426,6 +434,10 @@
     <Content Include="Views\FoodPicture\FoodPictureForm.cshtml" />
     <Content Include="Views\FoodPicture\_FoodPicturePreview.cshtml" />
     <Content Include="Views\FoodPicture\_FoodPictureMenuPreview.cshtml" />
+    <Content Include="Views\Food\Details.cshtml" />
+    <Content Include="Views\Food\Index.cshtml" />
+    <Content Include="Views\Special\Index.cshtml" />
+    <Content Include="Views\Special\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -470,6 +482,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\RestaurantMigrations\201802090315143_RemoveOldTableNameConstraintRestaurantPictures.resx">
       <DependentUpon>201802090315143_RemoveOldTableNameConstraintRestaurantPictures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802200336147_MakeFilePathASCIIAndIndexIt.resx">
+      <DependentUpon>201802200336147_MakeFilePathASCIIAndIndexIt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201802210411014_MakeFoodPictureFilePathRequired.resx">
+      <DependentUpon>201802210411014_MakeFoodPictureFilePathRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

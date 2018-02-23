@@ -18,6 +18,7 @@ namespace RestaurantWebsite.ViewModels
         public string Description { get; set; }
 
         //https://stackoverflow.com/q/24188215
+        [DataType(DataType.Currency)]
         public decimal BasePrice { get; set; }
 
         public ICollection<Extra> Extras { get; set; }
