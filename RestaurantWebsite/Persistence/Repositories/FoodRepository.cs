@@ -49,6 +49,14 @@ namespace RestaurantWebsite.Persistence.Repositories
                 .Where(f => f.BasePrice <= maxPrice).ToList();
         }
 
+        public Food GetWithExtrasAndPictures(int id)
+        {
+            return RestaurantContext.Foods
+                .Include(c => c.Extras)
+                .Include(c => c.FoodPictures)
+                .SingleOrDefault(c => c.Id == id);
+        }
+
         //public new void Add(Food food) {
         //    RestaurantContext.Foods
         //        .Add(food);

@@ -5,7 +5,7 @@
 }
 
 <h1>Our Specials</h1>
-    
+@Html.ActionLink("New Special", "New", "Special", null, new { @class = "btn btn-primary new-item" })
 @foreach (var special in Model.Specials)
 {
     <div class="special-item">
@@ -15,7 +15,7 @@
                 <h3 class="card-title">@special.Name</h3>
                 <p class="card-text">@special.Description</p>
                 <p style="font-weight: bold">Ends: @special.EndDate</p>
-                @Html.ActionLink("Details", "Details", "Special", new { id = special.Id }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Edit", "Edit", "Special", new { id = special.Id }, new { @class = "btn btn-primary" })
             </div>
         </div>
     </div>

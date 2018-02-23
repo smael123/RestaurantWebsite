@@ -1,19 +1,18 @@
 ﻿@{Layout = null;}
 @model RestaurantWebsite.ViewModels.FoodPicturePreviewListViewModel
 
-<div class="container">
-    <div class="row">
-        @foreach (var picture in Model.FoodPreviews)
-        {
-            <div class="food-picture-item col-sm-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img class="card-img-top" src="@picture.FilePath" />
-                    @Html.ActionLink("Edit", "Edit", "FoodPicture", new { @id = picture.Id }, new { @class = "btn btn-secondary" })
-                </div>
+
+<div class="row">
+    @foreach (var picture in Model.FoodPreviews)
+    {
+        <div class="food-picture-item col-sm-6 col-md-4 col-lg-3">
+            <div class="card">
+                <img class="card-img-top" src="@picture.FilePath" />
+                @Html.ActionLink("Edit", "Edit", "FoodPicture", new { @id = picture.Id }, new { @class = "btn btn-secondary" })
             </div>
-        }
-    </div>
-    <div class="new-food-picture-button">
-        @Html.ActionLink("New Picture", "New", "FoodPicture", new { @foodId = Model.FoodId}, new { @class = "btn btn-secondary" })
-    </div>
+        </div>
+    }
+</div>
+<div class="new-food-picture-button">
+    @Html.ActionLink("New Picture", "New", "FoodPicture", new { @foodId = Model.FoodId}, new { @class = "btn btn-secondary" })
 </div>

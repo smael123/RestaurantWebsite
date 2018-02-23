@@ -26,11 +26,13 @@ namespace RestaurantWebsite.Controllers
         {
             var foods = _unitOfWork.Foods.GetAll();
 
-            return View("Menu", new FoodListViewModel { Foods = foods });
+            return View(new FoodListViewModel { Foods = foods });
         }
 
+
+
         public ActionResult New() {
-            return View("FoodForm", new FoodFormViewModel());
+            return View("Edit", new FoodFormViewModel());
         }
 
         public ActionResult Edit(int id) {
@@ -40,7 +42,20 @@ namespace RestaurantWebsite.Controllers
                 return HttpNotFound();
             }
 
-            return View("FoodForm", new FoodFormViewModel(foodInDb));
+            return View(new FoodFormViewModel(foodInDb));
+        }
+
+        [AllowAnonymous]
+        public ActionResult Details(int id)
+        {
+            var foodInDb = _unitOfWork.Foods.GetWithExtrasAndPictures(id);
+
+            if (foodInDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(new FoodFormViewModel(foodInDb));
         }
 
         //can only save the Food not extras!
