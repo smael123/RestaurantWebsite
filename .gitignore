@@ -261,5 +261,4 @@ __pycache__/
 *.pyc
 
 # thumbs db files
-RestaurantWebsite/Images/Food/Thumbs.db
-RestaurantWebsite/Images/SpecialImages/Thumbs.db
+Thumbs.db
