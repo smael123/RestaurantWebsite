@@ -13,7 +13,7 @@ Need To Implement:
 <ul>
   <li>Deletion options</li>
   <li><s>Form Validation</s></li>
-  <li>Customer Menu</li>
+  <li><s>Customer Menu</s></li>
   <li><s>Images for foods and specials</s></li>
   <li><s>Manager only features (manager is the only one who should edit and create foods and specials)</li></s>
 </ul>
