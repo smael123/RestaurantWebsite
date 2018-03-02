@@ -1,10 +1,16 @@
 ﻿@using MyToolkit.Html
 @model RestaurantWebsite.ViewModels.FoodFormViewModel
+
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    string h1Text = (Model.Id != 0) ? ("Edit " + Model.Name) : "New Food";
 }
 
-    <h1>Edit Food</h1>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = h1Text;
+}
+
+    <h1>@h1Text</h1>
 
     @using (Html.BeginForm("Save", "Food"))
     {

@@ -83,5 +83,33 @@ namespace RestaurantWebsite.Controllers
 
             return View("_FoodPictureMenuPreview", foodPicture);
         }
+
+        public ActionResult Delete(int id, int foodId = 0) {
+            //string relativeFolderPath = "/Images/Food/";
+
+            FoodPicture foodPictureInDb = _unitOfWork.FoodPictures.SingleOrDefault(c => c.Id == id);
+
+            if (foodPictureInDb == null) {
+                return HttpNotFound();
+            }
+
+            _unitOfWork.FoodPictures.Remove(foodPictureInDb);
+
+            string absoluteFilePath = HttpContext.Server.MapPath("~") + foodPictureInDb.FilePath;
+
+            try
+            {
+                System.IO.File.Delete(absoluteFilePath);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                //basically I want to return the Edit page with the error. I will have to have an optional argument for a error string in the controller
+            }
+
+            _unitOfWork.Complete();
+
+
+            return (foodId == 0) ? RedirectToAction("Index", "Food") : RedirectToAction("Edit", "Food", new { id = foodId });
+        }
     }
 }

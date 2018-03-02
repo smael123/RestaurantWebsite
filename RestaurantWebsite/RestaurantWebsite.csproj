@@ -414,11 +414,9 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Food\AdminIndex.cshtml" />
     <Content Include="Views\Food\Edit.cshtml" />
     <Content Include="Views\Extra\_ExtraForm.cshtml" />
-    <Content Include="Views\Special\AdminIndex.cshtml" />
-    <Content Include="Views\Special\SpecialForm.cshtml" />
+    <Content Include="Views\Special\Edit.cshtml" />
     <Content Include="Views\Special\PickFood.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />

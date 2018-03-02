@@ -5,17 +5,30 @@
 }
 
 <h1>Our Specials</h1>
-    
+
+@if (User.Identity.IsAuthenticated){
+    @Html.ActionLink("New Special", "New", "Special", null, new { @class = "btn btn-primary new-item" });
+}
+
 @foreach (var special in Model.Specials)
 {
     <div class="special-item">
         <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">@special.Name</h2>
+            </div>
             <div class="card-body">
                 <img class="card-img-top" src="@special.PictureFilePath" />
-                <h3 class="card-title">@special.Name</h3>
                 <p class="card-text">@special.Description</p>
                 <p style="font-weight: bold">Ends: @special.EndDate</p>
-                @Html.ActionLink("Details", "Details", "Special", new { id = special.Id }, new { @class = "btn btn-primary" })
+            </div>
+            <div class="card-footer">
+                @{
+                    MvcHtmlString anchorLink = (User.Identity.IsAuthenticated)
+                        ? Html.ActionLink("Edit", "Edit", "Special", new { id = special.Id }, new { @class = "btn btn-primary" })
+                        : Html.ActionLink("Details", "Details", "Special", new { id = special.Id }, new { @class = "btn btn-primary" });
+                }
+                @anchorLink
             </div>
         </div>
     </div>

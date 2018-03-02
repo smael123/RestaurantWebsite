@@ -1,10 +1,16 @@
 ﻿@model RestaurantWebsite.ViewModels.SpecialFormViewModel
+
+@{
+    var h1Text = (Model.Id == 0) ? "New Special" : "Edit Special";
+}
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = h1Text;
 }
 
 
-<h2>Edit Special</h2>
+<h1>@h1Text</h1>
 @using (Html.BeginForm("Save", "Special"))
 {
     @Html.ValidationSummary(true, "Please fix the following errors")
@@ -33,33 +39,35 @@
     {
         Model.SpecialPictureFilePath = "/Images/SpecialImages/no-picture.png";
     }
-
-    <img src="@Model.SpecialPictureFilePath" width="400" style="display: block;" />
-    @Html.ActionLink("Edit Picture", "EditPicture", new { @id = Model.Id }, new { @class = "btn btn-secondary new-item" })
-
-
+    
     @Html.HiddenFor(c => c.Id)
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Regular Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var food in Model.FoodsOnSpecial)
-            {
-                <tr>
-                    <td>@food.Name</td>
-                    <td>@food.BasePrice</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    @Html.ActionLink("Add Food", "PickFood", "Special", new { SpecialId = Model.Id }, new { @class = "btn btn-secondary new-item" })
     <button type="submit" class="btn btn-primary">Save</button>
 }
+
+@Html.Action("EditPicture", new { id = Model.Id })
+
+<h2>Extras</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Regular Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model.FoodsOnSpecial)
+        {
+            <tr>
+                <td>@food.Name</td>
+                <td>@food.BasePrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("Add Extra", "PickFood", "Special", new { SpecialId = Model.Id }, new { @class = "btn btn-secondary new-item" })
+
 
 @section scripts
 {

@@ -1,12 +1,13 @@
 ﻿@model RestaurantWebsite.ViewModels.SpecialImageFormViewModel
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
 
-<h1>Edit Special Picture for @Model.SpecialName</h1>
+<h2>Edit Picture</h2>
+
 @using (Html.BeginForm("SavePicture", "Special", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <img src="@Model.FilePath"/>
+    <img src="@Model.FilePath" width="400" />
     <div class="form-group">
         @Html.LabelFor(c => c.File)
         <input type="file" name="file" id="File" class="form-control" />   
@@ -16,5 +17,8 @@
     @Html.HiddenFor(c => c.PictureId)
     @Html.HiddenFor(c => c.SpecialName)
 
-    <input type="submit" value="Upload" class="submit btn btn-primary" />
+    <div class="btn-group" role="group" aria-label="Special Picture Options">
+        <button type="submit" value="Upload" class="submit btn btn-primary">Upload</button>
+        @Html.ActionLink("Delete", "DeletePicture", new { id = Model.SpecialId }, new { @class = "btn btn-danger"})
+    </div>
 }

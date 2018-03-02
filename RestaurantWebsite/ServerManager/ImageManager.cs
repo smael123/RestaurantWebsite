@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
 
 namespace RestaurantWebsite.ServerManager
 {
@@ -18,8 +19,11 @@ namespace RestaurantWebsite.ServerManager
             File = file;
         }
 
-        public void SaveImage(HttpPostedFileBase file) {
-            File.SaveAs(AbsoluteFilePath);
+        public void SaveImage(HttpPostedFileBase file)
+        {
+            //if (file.ContentLength)
+
+            file.SaveAs(AbsoluteFilePath);
         }
     }
 }
