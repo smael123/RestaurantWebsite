@@ -8,7 +8,10 @@
         <div class="food-picture-item col-sm-6 col-md-4 col-lg-3">
             <div class="card">
                 <img class="card-img-top" src="@picture.FilePath" />
-                @Html.ActionLink("Edit", "Edit", "FoodPicture", new { @id = picture.Id }, new { @class = "btn btn-secondary" })
+                <div class="btn-group">
+                    @Html.ActionLink("Edit", "Edit", "FoodPicture", new { id = picture.Id }, new { @class = "btn btn-secondary" })
+                    @Html.ActionLink("Delete", "Delete", "FoodPicture", new { id = picture.Id }, new { @class = "btn btn-danger" })
+                </div>
             </div>
         </div>
     }

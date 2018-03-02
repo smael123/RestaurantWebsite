@@ -36,13 +36,19 @@ namespace RestaurantWebsite.Migrations.RestaurantMigrations
                     FoodPictures = new FoodPicture[] {
                         new FoodPicture {
                             FilePath = "/Images/Food/Taco.jpg"
+                        },
+                        new FoodPicture {
+                            FilePath = "/Images/Food/Chicken Fajita Taco.jpg"
+                        },
+                        new FoodPicture {
+                            FilePath = "/Images/Food/Chicharron Taco.jpg"
                         }
                     }
                     
                 },
                 new Food {
                     Name = "Tampiquena Plate",
-                    Description = "A delicious peice of tampiquena steak served with beans, tortillas, and onions.\nImage By Joseph A. Tyson - los cabos magazine, CC BY 3.0, https://commons.wikimedia.org/w/index.php?curid=5252169",
+                    Description = "A delicious peice of tampiquena steak served with beans, tortillas, and onions.",
                     BasePrice = 14.99m,
                     Extras = new Extra[] {
                         new Extra {
@@ -58,7 +64,7 @@ namespace RestaurantWebsite.Migrations.RestaurantMigrations
                 },
                 new Food {
                     Name = "Menudo Bowl",
-                    Description = "A mexican delicacy, menudo is a soup with tripe, hominy, and an unforgettable taste. Comes with cliantro and onion.\n Photo By David Martin Davies [CC BY-SA 2.0 (https://creativecommons.org/licenses/by-sa/2.0)], via Wikimedia Commons",
+                    Description = "A mexican delicacy, menudo is a soup with tripe, hominy, and an unforgettable taste. Comes with cliantro and onion.",
                     BasePrice = 5.79m,
                     Extras = new Extra[] {
                         new Extra {
@@ -97,6 +103,7 @@ namespace RestaurantWebsite.Migrations.RestaurantMigrations
                     Description = "For a limited time, all tacos are half off. Extras not included.",
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now.AddDays(14),
+                    PictureFilePath = "/Images/SpecialImages/half-off-taco.jpg",
                     FoodsOnSpecial = new List<Food>() {
                         context.Foods.Single(c => c.Name == "Taco")
                     }
@@ -106,6 +113,7 @@ namespace RestaurantWebsite.Migrations.RestaurantMigrations
                     Description = "For a limited time when you order a tampiquena plate you will get a free taco with your plate.",
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now.AddDays(7),
+                    PictureFilePath = "/Images/SpecialImages/free-taco-with-tampiquena.jpg",
                     FoodsOnSpecial = new List<Food>() {
                         context.Foods.Single(c => c.Name == "Taco"),
                         context.Foods.Single(c => c.Name == "Tampiquena Plate")
