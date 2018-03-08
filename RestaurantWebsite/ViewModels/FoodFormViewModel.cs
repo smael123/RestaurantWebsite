@@ -24,6 +24,8 @@ namespace RestaurantWebsite.ViewModels
         public ICollection<Extra> Extras { get; set; }
         public ICollection<FoodPicture> FoodPictures { get; set; }
 
+        public bool IsArchived { get; set; }
+
         public FoodFormViewModel() {
             Extras = new List<Extra>();
             FoodPictures = new List<FoodPicture>();
@@ -34,6 +36,7 @@ namespace RestaurantWebsite.ViewModels
             Name = food.Name;
             Description = food.Description;
             BasePrice = food.BasePrice;
+            IsArchived = food.IsArchived;
 
             Extras = food.Extras;
             FoodPictures = food.FoodPictures;

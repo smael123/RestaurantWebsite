@@ -24,7 +24,9 @@ namespace RestaurantWebsite.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var foods = _unitOfWork.Foods.GetAll();
+            IEnumerable<Food> foods = (User.Identity.IsAuthenticated) ? _unitOfWork.Foods.GetAllForAdminIndex() : _unitOfWork.Foods.GetAllForIndex();
+
+            //var foods = _unitOfWork.Foods.GetAll();
 
             return View(new FoodListViewModel { Foods = foods });
         }
@@ -36,7 +38,7 @@ namespace RestaurantWebsite.Controllers
         }
 
         public ActionResult Edit(int id) {
-            var foodInDb = _unitOfWork.Foods.GetWithExtra(id);
+            var foodInDb = _unitOfWork.Foods.GetFoodForEdit(id);
 
             if (foodInDb == null) {
                 return HttpNotFound();
@@ -45,10 +47,41 @@ namespace RestaurantWebsite.Controllers
             return View(new FoodFormViewModel(foodInDb));
         }
 
+        public ActionResult Archive(int id)
+        {
+            var foodInDb = _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
+
+            if (foodInDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            foodInDb.IsArchived = true;
+
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Restore(int id) {
+            var foodInDb = _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
+
+            if (foodInDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            foodInDb.IsArchived = false;
+
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index");
+        }
+
         [AllowAnonymous]
         public ActionResult Details(int id)
         {
-            var foodInDb = _unitOfWork.Foods.GetWithExtrasAndPictures(id);
+            var foodInDb = _unitOfWork.Foods.GetFoodForDetails(id);
 
             if (foodInDb == null)
             {

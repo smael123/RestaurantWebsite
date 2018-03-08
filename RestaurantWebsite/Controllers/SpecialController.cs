@@ -26,16 +26,16 @@ namespace RestaurantWebsite.Controllers
 
         [AllowAnonymous]
         public ActionResult Index() {
-            var specials = _unitOfWork.Specials.GetAll();
+            var specials = (User.Identity.IsAuthenticated) ? _unitOfWork.Specials.GetAllForAdminIndex() : _unitOfWork.Specials.GetAllForIndex();
 
             return View(new SpecialListViewModel { Specials = specials });
         }
 
-        public ActionResult AdminIndex() {
-            var specials = _unitOfWork.Specials.GetAll();
+        //public ActionResult AdminIndex() {
+        //    var specials = _unitOfWork.Specials.GetAll();
 
-            return View(new SpecialListViewModel { Specials = specials });
-        }
+        //    return View(new SpecialListViewModel { Specials = specials });
+        //}
 
         public ActionResult Edit(int id) {
             var specialInDb = _unitOfWork.Specials.GetWithFood(id);
@@ -61,6 +61,36 @@ namespace RestaurantWebsite.Controllers
 
         public ActionResult New() {
             return View("SpecialForm", new SpecialFormViewModel());
+        }
+
+        public ActionResult Archive(int id) {
+            var specialInDb = _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
+
+            if (specialInDb == null) {
+                return HttpNotFound();
+            }
+
+            specialInDb.IsArchived = true;
+
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Restore(int id)
+        {
+            var specialInDb = _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
+
+            if (specialInDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            specialInDb.IsArchived = false;
+
+            _unitOfWork.Complete();
+
+            return RedirectToAction("Index");
         }
 
 

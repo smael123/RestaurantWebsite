@@ -5,7 +5,7 @@ using System.Web;
 
 namespace RestaurantWebsite.Core.Domain
 {
-    public class Food
+    public class Food : IArchivable
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -15,5 +15,6 @@ namespace RestaurantWebsite.Core.Domain
 
         public virtual ICollection<Special> SpecialsItBelongsTo { get; set; }
         public virtual ICollection<FoodPicture> FoodPictures { get; set; }
+        public bool IsArchived { get; set; }
     }
 }

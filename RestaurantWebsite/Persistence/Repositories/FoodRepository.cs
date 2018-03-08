@@ -8,7 +8,7 @@ using System.Web;
 
 namespace RestaurantWebsite.Persistence.Repositories
 {
-    public class FoodRepository : Repository<Food>, IFoodRepository
+    public class FoodRepository : ArchivableRepository<Food>, IFoodRepository
     {
         public FoodRepository(RestaurantContext context) : base(context)
         { }
@@ -55,6 +55,34 @@ namespace RestaurantWebsite.Persistence.Repositories
                 .Include(c => c.Extras)
                 .Include(c => c.FoodPictures)
                 .SingleOrDefault(c => c.Id == id);
+        }
+
+        public Food GetFoodForDetails(int id)
+        {
+            return RestaurantContext.Foods
+                .Include(c => c.Extras)
+                .Include(c => c.FoodPictures)
+                .SingleOrDefault(c => c.Id == id && c.IsArchived == false);    
+        }
+
+        public Food GetFoodForEdit(int id)
+        {
+            return RestaurantContext.Foods
+                .Include(c => c.Extras)
+                .SingleOrDefault(c => c.Id == id);
+        }
+
+        public IEnumerable<Food> GetAllForIndex()
+        {
+            return RestaurantContext.Foods
+                .Include(c => c.FoodPictures)
+                .Where(c => c.IsArchived == false);
+        }
+
+        public IEnumerable<Food> GetAllForAdminIndex()
+        {
+            return RestaurantContext.Foods
+                .Include(c => c.FoodPictures);
         }
 
         //public new void Add(Food food) {
