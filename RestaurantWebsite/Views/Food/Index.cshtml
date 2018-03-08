@@ -11,13 +11,15 @@
 <div class="row">
     @foreach (var food in Model.Foods)
     {
-        <div class="food-item col-sm-6 col-md-4 col-lg-3">
+        <div class="food-item col-sm-6 col-md-4 col-lg-3" data-archived="@food.IsArchived">
             <div class="card">
-                <div class="card-header"><h2 class="card-title">@food.Name</h2></div>
+                <div class="card-header">
+                    <h2 class="card-title">@food.Name</h2>
+                </div>
                 <div class="card-body">
                     @Html.Action("MenuPreview", "FoodPicture", new { @foodId = food.Id })
                     <p class="card-text">@food.Description</p>
-                    <p class="food-item-price">@food.BasePrice</p>                    
+                    <p class="food-item-price">@food.BasePrice</p>
                 </div>
                 <div class="card-footer">
                     @if (User.Identity.IsAuthenticated)
@@ -35,3 +37,10 @@
     }
 </div>
 
+@section scripts {
+    <script>
+        $("document").ready(function () {
+            $(".food-item[data-archived='True'] .card-title").append(" <span class='badge badge-danger'>Archived</span>")
+        })
+    </script>
+}

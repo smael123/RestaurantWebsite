@@ -13,7 +13,7 @@
 @foreach (var special in Model.Specials)
 {
     <div class="special-item">
-        <div class="card">
+        <div class="card" data-archived="@special.IsArchived">
             <div class="card-header">
                 <h2 class="card-title">@special.Name</h2>
             </div>
@@ -32,4 +32,12 @@
             </div>
         </div>
     </div>
+}
+
+@section scripts {
+    <script>
+        $("document").ready(function () {
+            $(".card[data-archived='True'] .card-title").append(" <span class='badge badge-danger'>Archived</span>")
+        })
+    </script>
 }

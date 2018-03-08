@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace RestaurantWebsite.Core.Repositories
 {
-    public interface ISpecialRepository : IRepository<Special>
+    public interface ISpecialRepository : IRepository<Special>, IArchivableRepository<Special>
     {
         //IEnumerable<Special> GetAllSpecialsWithFood(int id, int foodId);
         IEnumerable<Special> GetCurrentSpecials();
         IEnumerable<Special> GetOldSpecials();
         IEnumerable<Special> GetAllWithFoods();
         Special GetWithFood(int id);
+        IEnumerable<Special> GetAllForIndex();
+        IEnumerable<Special> GetAllForAdminIndex();
         //Special GetWithPicture(int id);
         //Special GetWithNavigationalProperties(int id);
     }

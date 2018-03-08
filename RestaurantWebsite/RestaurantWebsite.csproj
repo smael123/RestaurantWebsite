@@ -226,7 +226,9 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SpecialController.cs" />
     <Compile Include="Core\Domain\ApplicationUser.cs" />
+    <Compile Include="Core\Domain\IArchivable.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
+    <Compile Include="Core\Repositories\IArchivableRepository.cs" />
     <Compile Include="Core\Repositories\IExtraRepository.cs" />
     <Compile Include="Core\Repositories\IFoodPictureRepository.cs" />
     <Compile Include="Core\Repositories\IFoodRepository.cs" />
@@ -293,8 +295,13 @@
     <Compile Include="Migrations\RestaurantMigrations\201802210411014_MakeFoodPictureFilePathRequired.Designer.cs">
       <DependentUpon>201802210411014_MakeFoodPictureFilePathRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\RestaurantMigrations\201803050247101_MakeFoodAndSpecialArchivable.cs" />
+    <Compile Include="Migrations\RestaurantMigrations\201803050247101_MakeFoodAndSpecialArchivable.Designer.cs">
+      <DependentUpon>201803050247101_MakeFoodAndSpecialArchivable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\RestaurantMigrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\FoodPictureConfiguration.cs" />
+    <Compile Include="Persistence\Repositories\ArchivableRepository.cs" />
     <Compile Include="Persistence\Repositories\FoodPictureRepository.cs" />
     <Compile Include="ServerManager\ImageManager.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -486,6 +493,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\RestaurantMigrations\201802210411014_MakeFoodPictureFilePathRequired.resx">
       <DependentUpon>201802210411014_MakeFoodPictureFilePathRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\RestaurantMigrations\201803050247101_MakeFoodAndSpecialArchivable.resx">
+      <DependentUpon>201803050247101_MakeFoodAndSpecialArchivable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

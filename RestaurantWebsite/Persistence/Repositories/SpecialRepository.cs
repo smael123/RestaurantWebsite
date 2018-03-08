@@ -8,7 +8,7 @@ using System.Web;
 
 namespace RestaurantWebsite.Persistence.Repositories
 {
-    public class SpecialRepository : Repository<Special>, ISpecialRepository
+    public class SpecialRepository : ArchivableRepository<Special>, ISpecialRepository
     {
         public SpecialRepository(RestaurantContext context) : base(context) { }
 
@@ -16,15 +16,6 @@ namespace RestaurantWebsite.Persistence.Repositories
         {
             get { return Context as RestaurantContext; }
         }
-
-        //public IEnumerable<Special> GetAllSpecialsWithFood(int id, int foodId)
-        //{
-        //    var specialInDb = this.Find(c => c.Id == id);
-
-        //    var foodInDb = specialInDb
-        //        .SelectMany(c => c.FoodsOnSpecial)
-        //        .Where(c => c.Id == foodId).ToList();
-        //}
 
         public IEnumerable<Special> GetCurrentSpecials()
         {
@@ -46,23 +37,22 @@ namespace RestaurantWebsite.Persistence.Repositories
                 .ToList();
         }
 
-        //public Special GetWithNavigationalProperties(int id) {
-        //    return RestaurantContext.Specials
-        //        .Include(c => c.FoodsOnSpecial)
-        //        .Include(c => c.SpecialPicture)
-        //        .SingleOrDefault(c => c.Id == id);
-        //}
-
         public Special GetWithFood(int id) {
             return RestaurantContext.Specials
                 .Include(c => c.FoodsOnSpecial)
                 .SingleOrDefault(c => c.Id == id);
         }
 
-        //public Special GetWithPicture(int id) {
-        //    return RestaurantContext.Specials
-        //        .Include(c => c.SpecialPicture)
-        //        .SingleOrDefault(c => c.Id == id);
-        //}
+        public IEnumerable<Special> GetAllForIndex() {
+            return RestaurantContext.Specials
+                .Where(c => c.IsArchived == false)
+                .ToList();
+        }
+
+        public IEnumerable<Special> GetAllForAdminIndex()
+        {
+            return RestaurantContext.Specials
+                .ToList();
+        }
     }
 }

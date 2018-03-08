@@ -19,6 +19,8 @@ namespace RestaurantWebsite.ViewModels
 
         public DateTime StartDate { get; set; }
 
+        public bool IsArchived { get; set; }
+
         public DateTime EndDate { get; set; }
         public ICollection<Food> FoodsOnSpecial { get; set; }
         public string SpecialPictureFilePath { get; set; }
@@ -33,6 +35,7 @@ namespace RestaurantWebsite.ViewModels
             Description = special.Description;
             StartDate = special.StartDate;
             EndDate = special.EndDate;
+            IsArchived = special.IsArchived;
             FoodsOnSpecial = special.FoodsOnSpecial;
             SpecialPictureFilePath = special.PictureFilePath;
         }
