@@ -44,21 +44,23 @@
         }
     </div>
 }
-<table class="table">
+<table class="table" id="extra-table">
     <thead>
         <tr>
             <th>Name</th>
             <th>Price</th>
             <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var extra in Model.Extras)
         {
-            <tr>
+            <tr data-extra-id="@extra.Id">
                 <td>@Html.DisplayTextFor(c => extra.Name)</td>
                 <td>@Html.DisplayTextFor(c => extra.AddedPrice)</td>
-                <td>@Html.ActionLink("Edit", "Edit", "Extra", new { id = extra.Id }, null)</td>
+                <td>@Html.ActionLink("Edit", "Edit", "Extra", new { id = extra.Id }, new { @class="btn btn-secondary" })</td>
+                <td><a class="btn btn-secondary delete-btn" href="#">Delete</a></td>
             </tr>
         }
     </tbody>
@@ -76,4 +78,26 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $(".delete-btn").click(function () {
+                var tableRow = $(this).parent().parent();
+                var extraId = tableRow.attr("data-extra-id");
+
+                var jsonUrl = "/Extra/Delete/" + extraId;
+
+                $.getJSON(jsonUrl, function (value) {
+                    if (value["Success"] == true) {
+                        tableRow.remove();
+                    }
+                    else {
+                        alert(value["Message"]);
+                    }
+                });
+
+                
+            })
+        })
+    </script>
 }

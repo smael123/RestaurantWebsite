@@ -35,6 +35,21 @@ namespace RestaurantWebsite.Controllers
             return View("_ExtraForm", new ExtraFormViewModel(extraInDb));
         }
 
+        public ActionResult Delete(int id) {
+            var extraInDb = _unitOfWork.Extras.SingleOrDefault(c => c.Id == id);
+
+            if (extraInDb == null)
+            {
+                return Json(new { Success = false, Message = "Extra not found, please reload page." }, JsonRequestBehavior.AllowGet);
+            }
+
+            _unitOfWork.Extras.Remove(extraInDb);
+
+            _unitOfWork.Complete();
+
+            return Json(new { Success = true, Message = "Extra sucessfully deleted!" }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Save(ExtraFormViewModel extraVM) {
             Extra extraInDb = _unitOfWork.Extras.SingleOrDefault(c => c.Id == extraVM.Id);
 
