@@ -11,7 +11,7 @@ Known Issues:
 Need To Implement:
 
 <ul>
-  <li>Deletion options</li>
+  <li><s>Deletion options</s></li>
   <li><s>Form Validation</s></li>
   <li><s>Customer Menu</s></li>
   <li><s>Images for foods and specials</s></li>
