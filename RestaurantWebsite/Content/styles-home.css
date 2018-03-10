@@ -1,0 +1,11 @@
+﻿#special-carousel {
+    text-align: center;
+}
+
+#special-carousel .carousel-indicators li {
+    background: black;
+}
+
+#special-carousel .carousel-caption {
+    color: black;
+}

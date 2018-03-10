@@ -1,4 +1,7 @@
-﻿using System;
+﻿using RestaurantWebsite.Core;
+using RestaurantWebsite.Persistence;
+using RestaurantWebsite.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,9 +12,21 @@ namespace RestaurantWebsite.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
+        private IUnitOfWork _unitOfWork;
+
+        public HomeController() {
+            _unitOfWork = new UnitOfWork();
+        }
+
         public ActionResult Index()
         {
-            return View();
+            var specials = _unitOfWork.Specials.GetCurrentSpecials();
+
+            HomeViewModel viewModel = new HomeViewModel {
+                CurrentSpecials = specials
+            };
+
+            return View(viewModel);
         }
 
         public ActionResult About()
