@@ -262,3 +262,6 @@ __pycache__/
 
 # thumbs db files
 Thumbs.db
+
+# ignore images
+RestaurantWebsite/Images
