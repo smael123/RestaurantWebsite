@@ -8,9 +8,10 @@
 
 <div class="jumbotron">
     <h1>Taqueria De la Luna</h1>
-    <p class="lead">Welcome to Taqueria De la Luna, the world's best taqueria. We wish to serve you rich authentic mexican dishes. Take a look at our @Html.ActionLink("menu", "Index", "Food", null, null) and our @Html.ActionLink("menu", "Index", "Special", null, null).</p>
+    <p class="lead">Welcome to Taqueria De la Luna, the world's best taqueria. We wish to serve you rich authentic mexican dishes. Take a look at our @Html.ActionLink("menu", "Index", "Food", null, null) and our @Html.ActionLink("specials", "Index", "Special", null, null).</p>
 </div>
 
+@if (Model.CurrentSpecials.Count() > 0) {
 <div id="specials">
     <h2>Specials</h2>
     <div id="special-carousel" class="carousel slide" data-ride="carousel">
@@ -18,7 +19,7 @@
             <li data-target="#special-carousel" data-slide-to="0" class="active"></li>
             @for (int i = 1; i < Model.CurrentSpecials.Count(); i++)
             {
-            <li data-target="#special-carousel" data-slide-to="@i"></li>
+                <li data-target="#special-carousel" data-slide-to="@i"></li>
             }
         </ul>
         <div class="carousel-inner">
@@ -26,22 +27,25 @@
                 <a href="/Special/Details/@Model.CurrentSpecials.First().Id" title="Learn more about @Model.CurrentSpecials.First().Name">
                     <img src="@Model.CurrentSpecials.First().PictureFilePath" alt="@Model.CurrentSpecials.First().Name">
                 </a>
-                    <div class="carousel-caption">
-                        <h3>@Model.CurrentSpecials.First().Name</h3>
-                    </div>
-                
+                <div class="carousel-caption">
+                    <h3>@Model.CurrentSpecials.First().Name</h3>
+                </div>
+
             </div>
             @foreach (var special in Model.CurrentSpecials.Skip(1))
-        {
-            <div class="carousel-item">
-                <a href="/Special/Details/@special.Id" title="Learn more about @special.Name">
-                    <img src="@special.PictureFilePath" alt="@special.Name">
-                </a>
-                <div class="carousel-caption">
-                    <h3>@special.Name</h3>
+            {
+                <div class="carousel-item">
+                    <a href="/Special/Details/@special.Id" title="Learn more about @special.Name">
+                        <img src="@special.PictureFilePath" alt="@special.Name">
+                    </a>
+                    <div class="carousel-caption">
+                        <h3>@special.Name</h3>
+                    </div>
                 </div>
-            </div>
-    }
+            }
         </div>
     </div>
 </div>
+
+}
+
