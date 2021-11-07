@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
@@ -61,25 +62,25 @@ namespace RestaurantWebsite.Controllers.Api
         }
 
         // GET api/<controller>
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
             //return new string[] { "value1", "value2" };
-            var foods = _unitOfWork.Foods.GetAllWithExtras();
+            var foods = await _unitOfWork.Foods.GetAllWithExtras();
 
             //var foodDtos = foods.Select(Mapper.Map<Food, FoodDto>);
             //var foodDtos = _mapper.Map<FoodDto>(foods);
 
             //_mapper.Map<FoodDto>(foods.Select());
 
-            var foodDtos = foods.Select(_mapper.Map<FoodDto>);
+            var foodDtos = foods.Select(_mapper.Map<FoodDto>).ToList();
 
             return Ok(foodDtos);
         }
 
         // GET api/<controller>/5
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> Get(int id)
         {
-            var food = _unitOfWork.Foods.GetWithExtra(id);
+            var food = await _unitOfWork.Foods.GetWithExtra(id);
 
             if (food == null) {
                 return NotFound();
@@ -98,24 +99,24 @@ namespace RestaurantWebsite.Controllers.Api
         //}
 
         // POST api/<controller>
-        public IHttpActionResult Post(FoodDto foodDto)
+        public async Task<IHttpActionResult> Post(FoodDto foodDto)
         {
             var food = _mapper.Map<Food>(foodDto);
 
             _unitOfWork.Foods.Add(food);
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return Created(new Uri(Request.RequestUri + "/" + food.Id), foodDto);
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, FoodDto foodDto)
+        public async Task Put(int id, FoodDto foodDto)
         {
             var foodInDb = _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
 
             _mapper.Map<Food>(foodDto);
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
         }
 
         // DELETE api/<controller>/5

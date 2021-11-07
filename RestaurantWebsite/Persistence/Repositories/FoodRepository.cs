@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace RestaurantWebsite.Persistence.Repositories
 {
@@ -17,83 +18,46 @@ namespace RestaurantWebsite.Persistence.Repositories
             get { return Context as RestaurantContext; }
         }
 
-        //public IEnumerable<Food> GetExtrasOfFood()
-        //{
-        //    return RestaurantContext.Foods
-        //        .Include(c => c.Extras)
-        //        .Select(c => c.Extras)
-        //        .ToList();
-        //}
-
-        public IEnumerable<Food> GetAllWithExtras() {
+        public Task<List<Food>> GetAllWithExtras() {
             return RestaurantContext.Foods
                 .Include(c => c.Extras)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Food GetWithExtra(int id) {
+        public Task<Food> GetWithExtra(int id) {
             return RestaurantContext.Foods
                 .Include(c => c.Extras)
-                .SingleOrDefault(c => c.Id == id);
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        //public Food SingleOrDefaultWithExtras(int id)
-        //{
-        //    return RestaurantContext.Foods
-        //        .Include(c => c.Extras)
-        //}
-
-        public IEnumerable<Food> GetFoodsUpToPrice(decimal maxPrice)
-        {
-            return RestaurantContext.Foods
-                .Where(f => f.BasePrice <= maxPrice).ToList();
-        }
-
-        public Food GetWithExtrasAndPictures(int id)
+        public Task<Food> GetFoodForDetails(int id)
         {
             return RestaurantContext.Foods
                 .Include(c => c.Extras)
                 .Include(c => c.FoodPictures)
-                .SingleOrDefault(c => c.Id == id);
+                .SingleOrDefaultAsync(c => c.Id == id && c.IsArchived == false);    
         }
 
-        public Food GetFoodForDetails(int id)
+        public Task<Food> GetFoodForEdit(int id)
         {
             return RestaurantContext.Foods
                 .Include(c => c.Extras)
-                .Include(c => c.FoodPictures)
-                .SingleOrDefault(c => c.Id == id && c.IsArchived == false);    
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public Food GetFoodForEdit(int id)
-        {
-            return RestaurantContext.Foods
-                .Include(c => c.Extras)
-                .SingleOrDefault(c => c.Id == id);
-        }
-
-        public IEnumerable<Food> GetAllForIndex()
+        public Task<List<Food>> GetAllForIndex()
         {
             return RestaurantContext.Foods
                 .Include(c => c.FoodPictures)
-                .Where(c => c.IsArchived == false);
+                .Where(c => c.IsArchived == false)
+                .ToListAsync();
         }
 
-        public IEnumerable<Food> GetAllForAdminIndex()
+        public Task<List<Food>> GetAllForAdminIndex()
         {
             return RestaurantContext.Foods
-                .Include(c => c.FoodPictures);
+                .Include(c => c.FoodPictures)
+                .ToListAsync();
         }
-
-        //public new void Add(Food food) {
-        //    RestaurantContext.Foods
-        //        .Add(food);
-
-        //    foreach (var extra in food.Extras) {
-        //        RestaurantContext.Extras
-        //            .Add(extra);
-        //    }
-        //}
-
     }
 }

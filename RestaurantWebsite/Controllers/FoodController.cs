@@ -7,6 +7,7 @@ using RestaurantWebsite.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,23 +23,19 @@ namespace RestaurantWebsite.Controllers
 
         // GET: Food
         [AllowAnonymous]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            IEnumerable<Food> foods = (User.Identity.IsAuthenticated) ? _unitOfWork.Foods.GetAllForAdminIndex() : _unitOfWork.Foods.GetAllForIndex();
-
-            //var foods = _unitOfWork.Foods.GetAll();
+            var foods = await (User.Identity.IsAuthenticated ? _unitOfWork.Foods.GetAllForAdminIndex() : _unitOfWork.Foods.GetAllForIndex());
 
             return View(new FoodListViewModel { Foods = foods });
         }
-
-
 
         public ActionResult New() {
             return View("Edit", new FoodFormViewModel());
         }
 
-        public ActionResult Edit(int id) {
-            var foodInDb = _unitOfWork.Foods.GetFoodForEdit(id);
+        public async Task<ActionResult> Edit(int id) {
+            var foodInDb = await _unitOfWork.Foods.GetFoodForEdit(id);
 
             if (foodInDb == null) {
                 return HttpNotFound();
@@ -47,9 +44,9 @@ namespace RestaurantWebsite.Controllers
             return View(new FoodFormViewModel(foodInDb));
         }
 
-        public ActionResult Archive(int id)
+        public async Task<ActionResult> Archive(int id)
         {
-            var foodInDb = _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
+            var foodInDb = await _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
 
             if (foodInDb == null)
             {
@@ -58,13 +55,13 @@ namespace RestaurantWebsite.Controllers
 
             foodInDb.IsArchived = true;
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }
 
-        public ActionResult Restore(int id) {
-            var foodInDb = _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
+        public async Task<ActionResult> Restore(int id) {
+            var foodInDb = await _unitOfWork.Foods.SingleOrDefault(c => c.Id == id);
 
             if (foodInDb == null)
             {
@@ -73,15 +70,15 @@ namespace RestaurantWebsite.Controllers
 
             foodInDb.IsArchived = false;
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }
 
         [AllowAnonymous]
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var foodInDb = _unitOfWork.Foods.GetFoodForDetails(id);
+            var foodInDb = await _unitOfWork.Foods.GetFoodForDetails(id);
 
             if (foodInDb == null)
             {
@@ -92,8 +89,8 @@ namespace RestaurantWebsite.Controllers
         }
 
         //can only save the Food not extras!
-        public ActionResult Save(FoodFormViewModel foodVM) {
-            Food foodInDb = _unitOfWork.Foods.GetWithExtra(foodVM.Id);
+        public async Task<ActionResult> Save(FoodFormViewModel foodVM) {
+            Food foodInDb = await _unitOfWork.Foods.GetWithExtra(foodVM.Id);
 
             if (foodInDb == null)
             {
@@ -105,7 +102,7 @@ namespace RestaurantWebsite.Controllers
                 foodInDb.BasePrice = foodVM.BasePrice;
             }
             
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }

@@ -9,6 +9,5 @@ namespace RestaurantWebsite.Core.Repositories
 {
     public interface IExtraRepository : IRepository<Extra>
     {
-        IEnumerable<Extra> GetExtrasOfFood(int foodId);
     }
 }

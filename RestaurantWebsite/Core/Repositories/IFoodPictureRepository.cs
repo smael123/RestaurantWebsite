@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace RestaurantWebsite.Core.Repositories
 {
     public interface IFoodPictureRepository : IRepository<FoodPicture>
     {
-        IEnumerable<FoodPicture> GetFoodPicturesOfFood(int foodId);
-        FoodPicture GetFirstPictureOfFood(int foodId);
+        Task<List<FoodPicture>> GetFoodPicturesOfFood(int foodId);
+        Task<FoodPicture> GetFirstPictureOfFood(int foodId);
     }
 }

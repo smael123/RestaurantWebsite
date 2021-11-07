@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,20 +26,14 @@ namespace RestaurantWebsite.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Index() {
-            var specials = (User.Identity.IsAuthenticated) ? _unitOfWork.Specials.GetAllForAdminIndex() : _unitOfWork.Specials.GetAllForIndex();
+        public async Task<ActionResult> Index() {
+            var specials = await (User.Identity.IsAuthenticated ? _unitOfWork.Specials.GetAllForAdminIndex() : _unitOfWork.Specials.GetAllForIndex());
 
             return View(new SpecialListViewModel { Specials = specials });
         }
 
-        //public ActionResult AdminIndex() {
-        //    var specials = _unitOfWork.Specials.GetAll();
-
-        //    return View(new SpecialListViewModel { Specials = specials });
-        //}
-
-        public ActionResult Edit(int id) {
-            var specialInDb = _unitOfWork.Specials.GetWithFood(id);
+        public async Task<ActionResult> Edit(int id) {
+            var specialInDb = await _unitOfWork.Specials.GetWithFood(id);
 
             if (specialInDb == null) {
                 return HttpNotFound();
@@ -48,8 +43,8 @@ namespace RestaurantWebsite.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Details(int id) {
-            var specialInDb = _unitOfWork.Specials.GetWithFood(id);
+        public async Task<ActionResult> Details(int id) {
+            var specialInDb = await _unitOfWork.Specials.GetWithFood(id);
 
             if (specialInDb == null)
             {
@@ -63,8 +58,8 @@ namespace RestaurantWebsite.Controllers
             return View("SpecialForm", new SpecialFormViewModel());
         }
 
-        public ActionResult Archive(int id) {
-            var specialInDb = _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
+        public async Task<ActionResult> Archive(int id) {
+            var specialInDb = await _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
 
             if (specialInDb == null) {
                 return HttpNotFound();
@@ -72,14 +67,14 @@ namespace RestaurantWebsite.Controllers
 
             specialInDb.IsArchived = true;
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }
 
-        public ActionResult Restore(int id)
+        public async Task<ActionResult> Restore(int id)
         {
-            var specialInDb = _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
+            var specialInDb = await _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
 
             if (specialInDb == null)
             {
@@ -88,15 +83,15 @@ namespace RestaurantWebsite.Controllers
 
             specialInDb.IsArchived = false;
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }
 
 
         //use an optional parameter
-        public ActionResult Save(SpecialFormViewModel specialVM) {
-            Special specialInDb = _unitOfWork.Specials.GetWithFood(specialVM.Id);
+        public async Task<ActionResult> Save(SpecialFormViewModel specialVM) {
+            Special specialInDb = await _unitOfWork.Specials.GetWithFood(specialVM.Id);
 
             if (specialInDb == null)
             {
@@ -111,29 +106,29 @@ namespace RestaurantWebsite.Controllers
                 //specialInDb.FoodsOnSpecial = specialVM.FoodsOnSpecial;
             }
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("AdminIndex");
         }
 
-        public ActionResult PickFood(int specialId) {
+        public async Task<ActionResult> PickFood(int specialId) {
             var specialInDb = _unitOfWork.Specials.Get(specialId);
             
             //what if we add the same food?
-            var foods = _unitOfWork.Foods.GetAll();
+            var foods = await _unitOfWork.Foods.GetAll();
 
             return View("PickFood", new PickFoodViewModel(specialInDb.Id, foods));
 
         }
 
-        public ActionResult AddFoodToSpecial(int specialId, int foodId) {
-            var specialInDb = _unitOfWork.Specials.GetWithFood(specialId);
+        public async Task<ActionResult> AddFoodToSpecial(int specialId, int foodId) {
+            var specialInDb = await _unitOfWork.Specials.GetWithFood(specialId);
 
-            var foodInDb = _unitOfWork.Foods.Get(foodId);
+            var foodInDb = await _unitOfWork.Foods.Get(foodId);
 
             specialInDb.FoodsOnSpecial.Add(foodInDb);
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return View("SpecialForm", new SpecialFormViewModel(specialInDb));
         }
@@ -153,36 +148,37 @@ namespace RestaurantWebsite.Controllers
         }
 
         //Perhaps picture related controllers should be moved to a separate class
+        [ChildActionOnly]
         public ActionResult EditPicture(int id) {
-            var specialInDb = _unitOfWork.Specials.SingleOrDefault(c=> c.Id == id);
+            var specialInDb = _unitOfWork.Specials.SingleOrDefault(c=> c.Id == id).Result;
 
             if (specialInDb == null)
             {
                 return HttpNotFound();
             }
 
-            return View("SpecialPictureForm", new SpecialImageFormViewModel(specialInDb));
+            return PartialView("SpecialPictureForm", new SpecialImageFormViewModel(specialInDb));
         }
 
-        public ActionResult SavePicture(SpecialImageFormViewModel viewModel) {
+        public async Task<ActionResult> SavePicture(SpecialImageFormViewModel viewModel) {
             string relativeFilePath = relativeFolderPath + viewModel.SpecialName + Path.GetExtension(viewModel.File.FileName);
             string absoluteFilePath = HttpContext.Server.MapPath("~" + relativeFolderPath) + viewModel.SpecialName + Path.GetExtension(viewModel.File.FileName);
 
             //RestaurantPicture restaurantPictureInDb = restaurantPictureRepository.SingleOrDefault(c => c.Id == viewModel.PictureId);
-            Special specialInDb = _unitOfWork.Specials.Get(viewModel.SpecialId);
+            Special specialInDb = await _unitOfWork.Specials.Get(viewModel.SpecialId);
 
             specialInDb.PictureFilePath = relativeFilePath;
 
             //save the picture as a file
             viewModel.File.SaveAs(absoluteFilePath);
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }
 
-        public ActionResult DeletePicture(int id) {
-            Special specialInDb = _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
+        public async Task<ActionResult> DeletePicture(int id) {
+            Special specialInDb = await _unitOfWork.Specials.SingleOrDefault(c => c.Id == id);
 
             if (specialInDb == null)
             {
@@ -201,7 +197,7 @@ namespace RestaurantWebsite.Controllers
                 //basically I want to return the Edit page with the error. I will have to have an optional argument for a error string in the controller
             }
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Edit", new { id });
         }

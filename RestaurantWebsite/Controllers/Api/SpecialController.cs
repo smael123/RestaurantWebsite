@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace RestaurantWebsite.Controllers.Api
@@ -51,9 +52,9 @@ namespace RestaurantWebsite.Controllers.Api
         }
 
         // GET api/<controller>
-        public IHttpActionResult Get()
+        public async Task<IHttpActionResult> Get()
         {
-            var specials = specialRepository.GetAllWithFoods();
+            var specials = await specialRepository.GetAllWithFoods();
 
             var specialDtos = specials.Select(_mapper.Map<SpecialDto>);
 
@@ -61,9 +62,9 @@ namespace RestaurantWebsite.Controllers.Api
         }
 
         // GET api/<controller>/5
-        public IHttpActionResult Get(int id)
+        public async Task<IHttpActionResult> Get(int id)
         {
-            var special = specialRepository.GetWithFood(id);
+            var special = await specialRepository.GetWithFood(id);
 
             if (special == null) {
                 return NotFound();

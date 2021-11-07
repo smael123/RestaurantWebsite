@@ -7,6 +7,7 @@ using RestaurantWebsite.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,7 +15,7 @@ namespace RestaurantWebsite.Controllers
 {
     public class ExtraController : Controller
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public ExtraController()
         {
@@ -25,8 +26,8 @@ namespace RestaurantWebsite.Controllers
             return View("_ExtraForm", new ExtraFormViewModel(foodId));
         }
 
-        public ActionResult Edit(int id) {
-            var extraInDb = _unitOfWork.Extras.SingleOrDefault(c => c.Id == id);
+        public async Task<ActionResult> Edit(int id) {
+            var extraInDb = await _unitOfWork.Extras.SingleOrDefault(c => c.Id == id);
 
             if (extraInDb == null) {
                 return HttpNotFound();
@@ -35,8 +36,8 @@ namespace RestaurantWebsite.Controllers
             return View("_ExtraForm", new ExtraFormViewModel(extraInDb));
         }
 
-        public ActionResult Delete(int id) {
-            var extraInDb = _unitOfWork.Extras.SingleOrDefault(c => c.Id == id);
+        public async Task<ActionResult> Delete(int id) {
+            var extraInDb = await _unitOfWork.Extras.SingleOrDefault(c => c.Id == id);
 
             if (extraInDb == null)
             {
@@ -45,13 +46,13 @@ namespace RestaurantWebsite.Controllers
 
             _unitOfWork.Extras.Remove(extraInDb);
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return Json(new { Success = true, Message = "Extra sucessfully deleted!" }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Save(ExtraFormViewModel extraVM) {
-            Extra extraInDb = _unitOfWork.Extras.SingleOrDefault(c => c.Id == extraVM.Id);
+        public async Task<ActionResult> Save(ExtraFormViewModel extraVM) {
+            Extra extraInDb = await _unitOfWork.Extras.SingleOrDefault(c => c.Id == extraVM.Id);
 
             if (extraInDb == null)
             {
@@ -63,7 +64,7 @@ namespace RestaurantWebsite.Controllers
                 extraInDb.AddedPrice = extraVM.AddedPrice;
             }
 
-            _unitOfWork.Complete();
+            await _unitOfWork.Complete();
 
             return RedirectToAction("Edit", "Food", new {Id = extraVM.FoodId});
         }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace RestaurantWebsite.Persistence.Repositories
@@ -26,18 +27,13 @@ namespace RestaurantWebsite.Persistence.Repositories
             Context.Set<TEntity>().AddRange(entities);
         }
 
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Context.Set<TEntity>().Where(predicate);
+        public Task<TEntity> Get(int id) {
+            return Context.Set<TEntity>().FindAsync(id);
         }
 
-        public TEntity Get(int id) {
-            return Context.Set<TEntity>().Find(id);
-        }
-
-        public IEnumerable<TEntity> GetAll()
+        public Task<List<TEntity>> GetAll()
         {
-            return Context.Set<TEntity>().ToList();
+            return Context.Set<TEntity>().ToListAsync();
         }
 
         public void Remove(TEntity entity)
@@ -50,9 +46,9 @@ namespace RestaurantWebsite.Persistence.Repositories
             Context.Set<TEntity>().RemoveRange(entities);
         }
 
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        public Task<TEntity> SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<TEntity>().SingleOrDefault(predicate);
+            return Context.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
     }
 }

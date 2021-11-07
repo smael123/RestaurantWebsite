@@ -9,15 +9,11 @@ namespace RestaurantWebsite.Core.Repositories
 {
     public interface IFoodRepository : IRepository<Food>, IArchivableRepository<Food>
     {
-        IEnumerable<Food> GetFoodsUpToPrice(decimal maxPrice);
-        IEnumerable<Food> GetAllWithExtras();
-        Food GetWithExtrasAndPictures(int id);
-        Food GetWithExtra(int id);
-        Food GetFoodForDetails(int id);
-        Food GetFoodForEdit(int id);
-        IEnumerable<Food> GetAllForIndex();
-        IEnumerable<Food> GetAllForAdminIndex();
-        //IEnumerable<Food> GetExtrasOfFood()
-        //IEnumerable<Food> GetFoodsOfSpecials(int specialId);
+        Task<List<Food>> GetAllWithExtras();
+        Task<Food> GetWithExtra(int id);
+        Task<Food> GetFoodForDetails(int id);
+        Task<Food> GetFoodForEdit(int id);
+        Task<List<Food>> GetAllForIndex();
+        Task<List<Food>> GetAllForAdminIndex();
     }
 }

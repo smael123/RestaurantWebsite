@@ -4,6 +4,7 @@ using RestaurantWebsite.Persistence.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace RestaurantWebsite.Persistence
@@ -26,9 +27,9 @@ namespace RestaurantWebsite.Persistence
             FoodPictures = new FoodPictureRepository(_context);
         }
 
-        public int Complete()
+        public Task<int> Complete()
         {
-            return _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
 
         public void Dispose()

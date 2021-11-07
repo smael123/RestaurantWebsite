@@ -2,7 +2,9 @@
 using RestaurantWebsite.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace RestaurantWebsite.Persistence.Repositories
@@ -17,19 +19,19 @@ namespace RestaurantWebsite.Persistence.Repositories
             get { return Context as RestaurantContext; }
         }
 
-        public FoodPicture GetFirstPictureOfFood(int foodId)
+        public Task<FoodPicture> GetFirstPictureOfFood(int foodId)
         {
             return RestaurantContext
                 .FoodPictures
-                .FirstOrDefault(c => c.FoodId == foodId); 
+                .FirstOrDefaultAsync(c => c.FoodId == foodId); 
         }
 
-        public IEnumerable<FoodPicture> GetFoodPicturesOfFood(int foodId)
+        public Task<List<FoodPicture>> GetFoodPicturesOfFood(int foodId)
         {
             return RestaurantContext
                 .FoodPictures
                 .Where(c => c.FoodId == foodId)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace RestaurantWebsite.Persistence.Repositories
 {
@@ -17,42 +18,35 @@ namespace RestaurantWebsite.Persistence.Repositories
             get { return Context as RestaurantContext; }
         }
 
-        public IEnumerable<Special> GetCurrentSpecials()
+        public Task<List<Special>> GetCurrentSpecials()
         {
             return RestaurantContext.Specials
                 .Where(c => c.EndDate.CompareTo(DateTime.Now) >= 0)
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<Special> GetOldSpecials()
-        {
-            return RestaurantContext.Specials
-                .Where(c => c.EndDate.CompareTo(DateTime.Now) < 0)
-                .ToList();
-        }
-
-        public IEnumerable<Special> GetAllWithFoods() {
+        public Task<List<Special>> GetAllWithFoods() {
             return RestaurantContext.Specials
                 .Include(c => c.FoodsOnSpecial)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Special GetWithFood(int id) {
+        public Task<Special> GetWithFood(int id) {
             return RestaurantContext.Specials
                 .Include(c => c.FoodsOnSpecial)
-                .SingleOrDefault(c => c.Id == id);
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
 
-        public IEnumerable<Special> GetAllForIndex() {
+        public Task<List<Special>> GetAllForIndex() {
             return RestaurantContext.Specials
                 .Where(c => c.IsArchived == false)
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<Special> GetAllForAdminIndex()
+        public Task<List<Special>> GetAllForAdminIndex()
         {
             return RestaurantContext.Specials
-                .ToList();
+                .ToListAsync();
         }
     }
 }

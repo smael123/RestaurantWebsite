@@ -308,6 +308,7 @@
     <Compile Include="Migrations\RestaurantMigrations\Configuration.cs" />
     <Compile Include="Persistence\EntityConfigurations\FoodPictureConfiguration.cs" />
     <Compile Include="Persistence\Repositories\ArchivableRepository.cs" />
+    <Compile Include="Persistence\Repositories\ExtraRepository.cs" />
     <Compile Include="Persistence\Repositories\FoodPictureRepository.cs" />
     <Compile Include="ServerManager\ImageManager.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -319,7 +320,6 @@
     <Compile Include="Persistence\EntityConfigurations\ExtraConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\FoodConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\SpecialConfiguration.cs" />
-    <Compile Include="Persistence\Repositories\ExtraRepository.cs" />
     <Compile Include="Persistence\Repositories\FoodRepository.cs" />
     <Compile Include="Persistence\Repositories\Repository.cs" />
     <Compile Include="Persistence\Repositories\SpecialRepository.cs" />

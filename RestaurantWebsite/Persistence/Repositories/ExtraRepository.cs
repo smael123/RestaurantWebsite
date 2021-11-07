@@ -16,13 +16,5 @@ namespace RestaurantWebsite.Persistence.Repositories
         {
             get { return Context as RestaurantContext; }
         }
-
-        public IEnumerable<Extra> GetExtrasOfFood(int foodId)
-        {
-            return RestaurantContext.Foods
-                .Include(c => c.Extras)
-                .SelectMany(c => c.Extras)
-                .ToList();
-        }
     }
 }

@@ -14,6 +14,6 @@ namespace RestaurantWebsite.Core
         ISpecialRepository Specials { get; }
         IFoodPictureRepository FoodPictures { get; }
 
-        int Complete();
+        Task<int> Complete();
     }
 }

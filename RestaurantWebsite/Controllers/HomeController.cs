@@ -4,6 +4,7 @@ using RestaurantWebsite.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,9 +19,9 @@ namespace RestaurantWebsite.Controllers
             _unitOfWork = new UnitOfWork();
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var specials = _unitOfWork.Specials.GetCurrentSpecials();
+            var specials = await _unitOfWork.Specials.GetCurrentSpecials();
 
             HomeViewModel viewModel = new HomeViewModel {
                 CurrentSpecials = specials
