@@ -55,7 +55,7 @@ namespace RestaurantWebsite.Controllers
         }
 
         public ActionResult New() {
-            return View("SpecialForm", new SpecialFormViewModel());
+            return View("Edit", new SpecialFormViewModel());
         }
 
         public async Task<ActionResult> Archive(int id) {
@@ -108,7 +108,7 @@ namespace RestaurantWebsite.Controllers
 
             await _unitOfWork.Complete();
 
-            return RedirectToAction("AdminIndex");
+            return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> PickFood(int specialId) {
