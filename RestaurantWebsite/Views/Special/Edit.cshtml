@@ -39,7 +39,7 @@
     {
         Model.SpecialPictureFilePath = "/Images/SpecialImages/no-picture.png";
     }
-    
+
     @Html.HiddenFor(c => c.Id)
 
     <div class="btn-group">
@@ -56,29 +56,30 @@
     </div>
 }
 
-@Html.Action("EditPicture", new { id = Model.Id })
+@if (Model.Id != 0) {
+    @Html.Action("EditPicture", new { id = Model.Id })
 
-<h2>Extras</h2>
+    <h2>Extras</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Regular Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var food in Model.FoodsOnSpecial)
-        {
+    <table class="table">
+        <thead>
             <tr>
-                <td>@food.Name</td>
-                <td>@food.BasePrice</td>
+                <th>Name</th>
+                <th>Regular Price</th>
             </tr>
-        }
-    </tbody>
-</table>
-@Html.ActionLink("Add Extra", "PickFood", "Special", new { SpecialId = Model.Id }, new { @class = "btn btn-secondary new-item" })
-
+        </thead>
+        <tbody>
+            @foreach (var food in Model.FoodsOnSpecial)
+            {
+                <tr>
+                    <td>@food.Name</td>
+                    <td>@food.BasePrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.ActionLink("Add Extra", "PickFood", "Special", new { SpecialId = Model.Id }, new { @class = "btn btn-secondary new-item" })
+}
 
 @section scripts
 {

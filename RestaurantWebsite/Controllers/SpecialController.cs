@@ -112,12 +112,17 @@ namespace RestaurantWebsite.Controllers
         }
 
         public async Task<ActionResult> PickFood(int specialId) {
-            var specialInDb = _unitOfWork.Specials.Get(specialId);
+            var specialInDb = await _unitOfWork.Specials.Get(specialId);
+
+            if (specialInDb == null)
+            {
+                return HttpNotFound();
+            }
             
             //what if we add the same food?
             var foods = await _unitOfWork.Foods.GetAll();
 
-            return View("PickFood", new PickFoodViewModel(specialInDb.Id, foods));
+            return View("PickFood", new PickFoodViewModel(specialId, foods));
 
         }
 
